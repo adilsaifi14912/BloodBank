@@ -1,6 +1,8 @@
 package com.example.controller;
+
 import com.example.dto.UserLoginDto;
 import com.example.dto.UserRegisterDto;
+import com.example.service.AdminService;
 import com.example.service.LoginService;
 import com.example.service.SignupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,36 +22,37 @@ public class BloodBankController {
     SignupService signupService;
     @Autowired
     LoginService loginService;
+
     @RequestMapping("/")
-    public String showHome(){
+    public String showHome() {
         return "home";
     }
+
     @RequestMapping("/signup")
-    public String signUp(){
+    public String signUp() {
         return "signup";
     }
+
     @RequestMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
-   @PostMapping(value = "/userRegister")
+
+    @PostMapping(value = "/userRegister")
     public String userRegister(@ModelAttribute @Valid UserRegisterDto userRegisterDto, Model model) {
-        if(signupService.addUser(userRegisterDto)){
-            model.addAttribute("successMessage","UserName already exits ,Please try again with different username");
-        }
-        else
+        if (signupService.addUser(userRegisterDto)) {
+            model.addAttribute("successMessage", "UserName already exits ,Please try again with different username");
+        } else
             model.addAttribute("successMessage", "Successfully registered!");
-        return "home";
+        return "signup";
     }
+
     @PostMapping(value = "/userLogin")
-    @ResponseBody
     public String userLogin(@ModelAttribute @Valid UserLoginDto userLoginDto) {
-        if (loginService.checkUser(userLoginDto)){
-            return "<h2>Successfully Logged In !</h2>";
-        }
-        else {
-            return "<h2>details Invalid !</h2>";
-//            return "error";
+        if (loginService.checkUser(userLoginDto)) {
+            return "loginExist";
+        } else {
+            return "loginError";
         }
 
     }

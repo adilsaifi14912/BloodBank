@@ -74,8 +74,8 @@
                                         }
 
                                         .back-to-signup a:hover {
-                                            text-decoration: underline;
-                                        }
+            text-decoration: underline;
+            }
 
 
     </style>
@@ -98,7 +98,9 @@
         </form>
     </div>
     <div class="back-to-signup">
-                <button><a href="signup">Back to Sign Up</a></button>
-            </div>
+          <span> <button><a href="signup">Back to Sign Up</a></button>
+           <button><a href="/">Back to Home</a></button>
+           </span>
+    </div>
 </body>
 </html>

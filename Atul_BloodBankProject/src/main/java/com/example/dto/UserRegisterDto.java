@@ -5,16 +5,14 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 public class UserRegisterDto {
-     @NotNull
-     @NotEmpty
+
+    @NotEmpty
     private String userName;
-     @NotNull
-     @NotEmpty
+    @NotEmpty
     private String name;
-     @NotNull
+    @NotNull
     private Date dob;
-     @NotNull
-     @NotEmpty
+    @NotEmpty
     private String password;
 
     public String getUserName() {

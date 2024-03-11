@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 public class LoginService {
     @Autowired
     DatabaseRepository databaseRepository;
-    public boolean checkUser(UserLoginDto userLoginDto){
+
+    public boolean checkUser(UserLoginDto userLoginDto) {
         Iterable<UserModel> users = databaseRepository.findAll();
-        for(UserModel userModel:users){
-            if((userModel.getUserName().equals(userLoginDto.getUserName()) )&& (userModel.getPassword().equals(userLoginDto.getPassword()))){
+        for (UserModel userModel : users) {
+            if ((userModel.getUserName().equals(userLoginDto.getUserName())) && (userModel.getPassword().equals(userLoginDto.getPassword()))) {
                 return true;
             }
         }

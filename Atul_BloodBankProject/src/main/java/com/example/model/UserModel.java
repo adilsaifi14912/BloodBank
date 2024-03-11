@@ -1,31 +1,35 @@
 package com.example.model;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNullFields;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class UserModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column
-    @NotNull
     @NotEmpty
     private String userName;
     @Column
-    @NotNull
     @NotEmpty
     private String name;
     @Column
     @NotNull
     private Date dob;
     @Column
-    @NotNull
     @NotEmpty
     private String password;
+    @Column
+    @NotNull
+    private LocalDateTime createdOn;
 
     public String getUserName() {
         return userName;
@@ -58,4 +62,13 @@ public class UserModel {
     public void setDob(Date dob) {
         this.dob = dob;
     }
+
+    public void setCreatedOn() {
+        this.createdOn = LocalDateTime.now();
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
 }
