@@ -5,7 +5,6 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 public class UserRegisterDto {
-
     @NotEmpty
     private String userName;
     @NotEmpty
@@ -19,8 +18,8 @@ public class UserRegisterDto {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.userName = username;
     }
 
     public String getName() {

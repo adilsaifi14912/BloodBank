@@ -12,13 +12,20 @@ public class LoginService {
     @Autowired
     DatabaseRepository databaseRepository;
 
+    //1st approach
     public boolean checkUser(UserLoginDto userLoginDto) {
         Iterable<UserModel> users = databaseRepository.findAll();
         for (UserModel userModel : users) {
-            if ((userModel.getUserName().equals(userLoginDto.getUserName())) && (userModel.getPassword().equals(userLoginDto.getPassword()))) {
+            if ((userModel.getUsername().equals(userLoginDto.getUserName())) && (userModel.getPassword().equals(userLoginDto.getPassword()))) {
                 return true;
             }
         }
         return false;
     }
+
+    //2nd approach
+//    public boolean checkUser(UserLoginDto userLoginDto) {
+//        UserModel user = databaseRepository.checkForLogin(userLoginDto.getUserName(), userLoginDto.getPassword());
+//        return (user != null && userLoginDto.getUserName().equals(user.getUsername()));
+//    }
 }

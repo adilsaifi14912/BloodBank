@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @Entity
 public class UserModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
     @NotEmpty
-    private String userName;
+    private String username;
     @Column
     @NotEmpty
     private String name;
@@ -30,13 +30,15 @@ public class UserModel {
     @Column
     @NotNull
     private LocalDateTime createdOn;
+    @Column
+    private String role;
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
@@ -71,4 +73,11 @@ public class UserModel {
         return createdOn;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

@@ -12,8 +12,8 @@ public class UserLoginDto {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.userName = username;
     }
 
     public String getPassword() {

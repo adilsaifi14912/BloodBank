@@ -14,14 +14,14 @@ public class AdminService {
 
     public void setAdmin() {
         UserModel admin = new UserModel();
-        admin.setUserName("Admin");
+        admin.setUsername("Admin");
         admin.setName("Admin....");
         admin.setDob(Date.valueOf("2000-01-01"));
         admin.setPassword("admin123");
         admin.setCreatedOn();
+        admin.setRole("AD");
         Iterable<UserModel> users = databaseRepository.findAll();
         if (!users.iterator().hasNext()) {
-//            System.out.println("list is empty");
             databaseRepository.save(admin);
         } else {
             System.out.println("not empty");
