@@ -8,10 +8,10 @@ import javax.validation.constraints.Size;
 public class UserLoginDto {
 
     @NotEmpty
-    @Size(min = 5,max = 10)
+//    @Size(min = 5,max = 10)
     private String username;
     @NotEmpty
-    @Size(min = 4,max = 10)
+//    @Size(min = 4,max = 10)
     private String password;
 
     public String getUsername() {

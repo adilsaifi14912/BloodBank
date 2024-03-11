@@ -4,16 +4,17 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class UserSignupDto {
-    @NotEmpty
-    @Size(min = 5,max=10)
+    @NotEmpty  //prevent from null and empty
+//    @Size(min = 5,max=10)
     private String username;
     @NotEmpty
-    @Size(min = 4,max = 15)
+//    @Size(min = 4,max = 15)
     private String name;
     @NotEmpty
-    @Size(min = 4,max = 10)
+//    @Size(min = 4,max = 10)
     private String password;
     @NotNull
     private Date dob;

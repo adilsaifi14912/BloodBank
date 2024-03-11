@@ -59,10 +59,6 @@
             background-color: #45a049;
         }
 
-        .error-message {
-            color: red;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
@@ -73,28 +69,24 @@
         <form action="register" method="post" id="signupForm">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
-             <span style="color: red;"><c:out value="${errors.getFieldError('name').defaultMessage}"/></span>
 
            <label for="name">Name:</label>
            <input type="text" id="name" name="name" >
-           <span style="color: red;"><c:out value="${errors.getFieldError('name').defaultMessage}"/></span>
 
            <label for="dob">DOB:</label>
-            <input type="date" id="dob" name="dob" required>
+            <input type="date" id="dob" name="dob" max ="2024-03-01" required>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
             <input type="submit" value="Sign Up">
-            <div th:if="${message}" class="alert alert-success">
-            <strong>${message}</strong>
+            <div th:if="${message}">
+            <strong style="color: blue;">${message}</strong>
             <h3>If you have already an account? Please Login!</h3>
-            <a href="login">Login</a>
+            <a href="/">Login</a>
             </div>
         </form>
     </div>
-
-
     </script>
 </body>
 </html>

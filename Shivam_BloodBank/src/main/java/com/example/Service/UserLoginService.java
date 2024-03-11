@@ -2,14 +2,14 @@ package com.example.Service;
 
 import com.example.Dto.UserLoginDto;
 import com.example.Model.UserModel;
-import com.example.Repository.UserRepository;
+import com.example.Repository.BloodBankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserLoginService {
     @Autowired
-    private UserRepository userRepository;
+    private BloodBankRepository bloodBankRepository;
     //check for user exist or not
     //1st Approach
 
@@ -23,7 +23,7 @@ public class UserLoginService {
 //            }
     //2nd Approach
     public boolean check(UserLoginDto userLoginDto) {
-        UserModel user = userRepository.checkIfExist(userLoginDto.getUsername(), userLoginDto.getPassword());
+        UserModel user = bloodBankRepository.checkForLogin(userLoginDto.getUsername(), userLoginDto.getPassword());
         return (user != null && userLoginDto.getUsername().equals(user.getUsername()));
     }
 }
