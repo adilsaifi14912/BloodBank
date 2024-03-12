@@ -12,5 +12,6 @@ public interface BloodBankRepository extends CrudRepository<UserModel, Long> {
     @Query(value = "SELECT * FROM user_model WHERE username = :username", nativeQuery = true)
     UserModel checkForSignup(String username);
 
+    UserModel findByUsername(String username);
 }
 

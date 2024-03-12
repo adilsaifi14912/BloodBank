@@ -16,13 +16,15 @@ public class AdminService {
         UserModel admin = new UserModel();
         admin.setName("Admin");
         admin.setDob(Date.valueOf("2000-03-01"));
-        admin.setRole("admin");
+        admin.setRole("Admin");
+        admin.setBloodGroup("B+");
         admin.setCreatedOn();
+        admin.setCreatedBy("self");
         admin.setUsername("Admin_1");
         admin.setPassword("admin123");
         Iterable<UserModel> user1 = bloodBankRepository.findAll();
         if (!(user1.iterator().hasNext())) {
-            System.out.println("admin");
+            System.out.println("in admin service method");
             bloodBankRepository.save(admin);
         }
     }
