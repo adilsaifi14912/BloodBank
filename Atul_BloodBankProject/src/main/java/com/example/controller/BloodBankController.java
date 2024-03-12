@@ -45,13 +45,45 @@ public class BloodBankController {
     }
 
     @PostMapping(value = "/userLogin")
-    public String userLogin(@ModelAttribute @Valid UserLoginDto userLoginDto) {
-        if (loginService.checkUser(userLoginDto)) {
-            return "loginExist";
-        } else {
-            return "loginError";
-        }
+    public String userLogin(@ModelAttribute @Valid UserLoginDto userLoginDto, Model model) {
+        UserRegisterDto returnDto = loginService.checkUser(userLoginDto);
 
+        if (returnDto != null) {
+//            System.out.println(returnDto.isFirstLogin());
+            if (returnDto.isFirstLogin()) {
+                // Redirect to the password update page
+                return "updatePasswordForm";
+            }
+            if (returnDto.isLocked()) {
+//                System.out.println(returnDto.isLocked());
+                return "loginAttemptsExceeded";
+            } else {
+                //switch for matching corresponding role and display view according with role
+                switch (returnDto.getRole()) {
+                    case "ADMIN":
+                        model.addAttribute("dto", returnDto);
+                        model.addAttribute("signupUsers", loginService.fetchSignedupUsers());
+                        return "admin";
+                    case "AGENT":
+                        model.addAttribute("dto", returnDto);
+                        return "user";
+                    case "EndUser":
+                        model.addAttribute("dto", returnDto);
+                        return "user";
+                    default:
+                        return "loginError";
+
+                }
+            }
+        }
+        return "loginError";
+
+    }
+
+    @PostMapping(value = "/processUpdatePassword")
+    public String updatePassword(@ModelAttribute @Valid UserLoginDto userLoginDto) {
+        loginService.updatePassword(userLoginDto);
+        return "passwordUpdateSuccess";
     }
 
 }

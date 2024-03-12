@@ -14,16 +14,19 @@ public class AdminService {
 
     public void setAdmin() {
         UserModel admin = new UserModel();
-        admin.setUsername("Admin");
+        admin.setUserName("Admin");
         admin.setName("Admin....");
         admin.setDob(Date.valueOf("2000-01-01"));
+        admin.setBloodGroup("B+");
         admin.setPassword("admin123");
         admin.setCreatedOn();
-        admin.setRole("AD");
+        admin.setCreatedBy("Self");
+        admin.setRole("ADMIN");
         Iterable<UserModel> users = databaseRepository.findAll();
         if (!users.iterator().hasNext()) {
             databaseRepository.save(admin);
-        } else {
+        }
+        else {
             System.out.println("not empty");
         }
     }

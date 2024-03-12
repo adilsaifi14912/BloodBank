@@ -40,6 +40,7 @@
         input[type="password"],
         input[type="date"],
         input[type="email"],
+        select,
         input[type="submit"] {
             width: 100%;
             padding: 10px;
@@ -88,6 +89,20 @@
 
             <label for="dob">DOB:</label>
            <input type="date" id="dob" name="dob" max="2024-03-11" required>
+
+            <label for="bloodGroup">Blood Group:</label>
+            <select id="bloodGroup" name="bloodGroup" required>
+                <option value="" disabled selected>Select Blood Group</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select>
+
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 

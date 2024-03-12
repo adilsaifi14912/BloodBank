@@ -12,4 +12,5 @@ public interface DatabaseRepository extends CrudRepository<UserModel,Long> {
 //    @Query(value = "SELECT * FROM user_model WHERE user_Name = :username", nativeQuery = true)
 //    UserModel checkForSignup(String username);
 
+    UserModel findByUserName(String userName);
 }
