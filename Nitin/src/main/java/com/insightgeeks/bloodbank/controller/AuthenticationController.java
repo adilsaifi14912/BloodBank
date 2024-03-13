@@ -3,13 +3,10 @@ package com.insightgeeks.bloodbank.controller;
 import com.insightgeeks.bloodbank.dto.LoginDTO;
 import com.insightgeeks.bloodbank.dto.PasswordResetDTO;
 import com.insightgeeks.bloodbank.dto.SignupDTO;
-import com.insightgeeks.bloodbank.entities.UserModel;
 import com.insightgeeks.bloodbank.service.DatabaseSetupService;
 import com.insightgeeks.bloodbank.service.LoginService;
 import com.insightgeeks.bloodbank.service.SignupService;
 import com.insightgeeks.bloodbank.util.LoginResult;
-import com.insightgeeks.bloodbank.util.LoginStatus;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -87,7 +84,7 @@ public class AuthenticationController {
 
             // Process login result
             switch (loginResult.getStatus()) {
-                case LoginStatus.SUCCESSFUL_LOGIN:
+                case "success":
                     // Handle successful login
                     if (user.getBlockStatus().equalsIgnoreCase("blocked")) {
                         model.addAttribute("blockStatus", "User Blocked");
@@ -110,12 +107,12 @@ public class AuthenticationController {
                             return "endUserProfilePage";
                     }
 
-                case LoginStatus.RESET_PASSWORD_REQUIRED:
+                case "reset":
                     // Redirect to password reset page if password reset is required
                     model.addAttribute("username", loginResult.getUser().getUsername());
                     return "passwordReset";
 
-                case LoginStatus.INVALID_CREDENTIALS:
+                case "invalid":
                     // Handle invalid credentials
                     model.addAttribute("status", "Invalid credentials");
                     if (loginResult.getBlockStatus() == 1) {
@@ -136,7 +133,7 @@ public class AuthenticationController {
     // Handling password change request
     @PostMapping(value = "/changePassword")
     public String changePassword(@ModelAttribute @Validated PasswordResetDTO passwordResetDTO, Model model,
-                                 BindingResult bindingResult, HttpServletRequest httpRequest) {
+                                 BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             // If validation errors exist, return to the password reset page
