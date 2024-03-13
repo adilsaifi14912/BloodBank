@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Password Reset</title>
     <style>
+        /* CSS styles */
         .header {
             background-color: #dc3545; /* Blood red color */
             color: #fff;
@@ -78,56 +78,38 @@
         .btn:hover {
             background-color: #0056b3;
         }
-
-        /* New styles for the signup link */
-        .signup-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .signup-link a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .signup-link a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
 
 <div class="header">
     <h1 class="logo">Blood Bank</h1>
-    <p class="slogan">Saving Lives, One Donation at a Time</p>
-     <p>${formatError}</p>
-    <p>${blockStatus}</p>
-    <p>${passwordResetStatus}</p>
-    <p>${status}</p>
+        <p class="slogan">Saving Lives, One Donation at a Time</p>
+        <p>${passwordResetStatus}</p>
 </div>
 <div class="container">
-    <h2>Login</h2>
-    <form action="userLogin" method="post">
+    <h2>Reset Your Password</h2>
+    <form action="changePassword" method="post">
 
         <div class="form-group">
-            <label for="username">Username:</label>
+           <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
         </div>
 
         <div class="form-group">
-            <label for="password">Password:</label>
+            <label for="password">New Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn">Login</button>
+            <label for="confirmPassword">Confirm New Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn">Change Password</button>
         </div>
     </form>
-
-    <div class="signup-link">
-        <p>Not Registered? <a href="signup">Signup</a></p>
-    </div>
-
 </div>
 </body>
 </html>

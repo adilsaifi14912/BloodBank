@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page isELIgnored="false" %>
+ <%@ page import="java.util.List" %>
+ <%@ page import="com.insightgeeks.bloodbank.dto.SignupDTO" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Admin Profile</title>
     <style>
+        /* CSS styles */
         .header {
             background-color: #dc3545; /* Blood red color */
             color: #fff;
@@ -33,7 +35,7 @@
         }
 
         .container {
-            max-width: 520px;
+            max-width: 920px;
             margin: 50px auto;
             background-color: #fff;
             border-radius: 8px;
@@ -46,22 +48,18 @@
             color: #333;
         }
 
-        .form-group {
+        .profile-info {
             margin-bottom: 20px;
         }
 
-        .form-group label {
+        .profile-info label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
 
-        .form-group input[type="text"],
-        .form-group input[type="password"] {
-            width: 100%;
+        .profile-info p {
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
             font-size: 16px;
         }
 
@@ -79,19 +77,35 @@
             background-color: #0056b3;
         }
 
-        /* New styles for the signup link */
-        .signup-link {
+        .edit-profile-link {
             text-align: center;
             margin-top: 20px;
         }
 
-        .signup-link a {
+        .edit-profile-link a {
             color: #007bff;
             text-decoration: none;
         }
 
-        .signup-link a:hover {
+        .edit-profile-link a:hover {
             text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
         }
     </style>
 </head>
@@ -100,34 +114,43 @@
 <div class="header">
     <h1 class="logo">Blood Bank</h1>
     <p class="slogan">Saving Lives, One Donation at a Time</p>
-     <p>${formatError}</p>
-    <p>${blockStatus}</p>
-    <p>${passwordResetStatus}</p>
-    <p>${status}</p>
 </div>
 <div class="container">
-    <h2>Login</h2>
-    <form action="userLogin" method="post">
-
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-
-        <div class="form-group">
-            <button type="submit" class="btn">Login</button>
-        </div>
-    </form>
-
-    <div class="signup-link">
-        <p>Not Registered? <a href="signup">Signup</a></p>
+    <h3>Admin user has logged in</h3>
+    <div class="profile-info">
+        <p><strong>Username:</strong> ${user.getUsername()}</p>
+        <p><strong>ID:</strong> ${user.getId()}</p>
+        <p><strong>Date of Birth:</strong> ${user.getDateOfBirth()}</p>
+        <p><strong>Phone Number:</strong>${user.getPhoneNumber()}</p>
+        <p><strong>Address:</strong>${user.getAddress()}</p>
     </div>
 
+    <h3>Signup Users</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Date of Birth</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Blood Group</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <%
+            List<SignupDTO> allUsers = (List<SignupDTO>) request.getAttribute("signedupUsers");
+            for (SignupDTO endUser : allUsers) { %>
+                <tr>
+                    <td><%= endUser.getUsername() %></td>
+                    <td><%= endUser.getDateOfBirth() %></td>
+                    <td><%= endUser.getPhoneNumber() %></td>
+                    <td><%= endUser.getAddress() %></td>
+                    <td><%= endUser.getBloodGroup() %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

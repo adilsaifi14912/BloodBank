@@ -1,13 +1,21 @@
 package BloodBank.Entity;
 
-import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.sql.Date;
 
-public class UserSignUpDetails {
+public class UserSignUpDetailsDTO {
+    @NotBlank
     private String username;
-    private LocalDate dob;
+    @NotNull
+    private Date dob;
+    @NotBlank
     private String contactNumber;
+    @NotBlank
     private String address;
     private String password;
+    @NotBlank
+    private String bloodGroup;
 
     public String getUsername() {
         return username;
@@ -17,11 +25,11 @@ public class UserSignUpDetails {
         this.username = username;
     }
 
-    public LocalDate getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(LocalDate dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
@@ -42,10 +50,20 @@ public class UserSignUpDetails {
     }
 
     public String getPassword() {
+        if(password.isEmpty())
+            password=String.valueOf(getDob());
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getBloodGroup() {
+        return bloodGroup;
+    }
+
+    public void setBloodGroup(String bloodGroup) {
+        this.bloodGroup = bloodGroup;
     }
 }
