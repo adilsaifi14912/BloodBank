@@ -11,6 +11,7 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            height:90%;
         }
 
         .container {
@@ -39,6 +40,7 @@
         input[type="password"],
         input[type="date"],
         input[type="email"],
+        select,
         input[type="submit"] {
             width: 100%;
             padding: 10px;
@@ -86,7 +88,21 @@
            <input type="text" id="name" name="name" required>
 
             <label for="dob">DOB:</label>
-           <input type="date" id="dob" name="dob" required>
+           <input type="date" id="dob" name="dob" max="2024-03-11" required>
+
+            <label for="bloodGroup">Blood Group:</label>
+            <select id="bloodGroup" name="bloodGroup" required>
+                <option value="" disabled selected>Select Blood Group</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select>
+
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
@@ -96,8 +112,12 @@
             <strong>${successMessage}</strong>
         </div>
         <div class="back-to-login">
-                    <button><a href="login">Back to Login</a></button>
-                </div>
+                   <span> <button><a href="login">Back to Login</a></button>
+                   <button><a href="/">Back to Home</a></button>
+                   </span>
+        </div>
+        <br/>
+
     </div>
 
 </body>

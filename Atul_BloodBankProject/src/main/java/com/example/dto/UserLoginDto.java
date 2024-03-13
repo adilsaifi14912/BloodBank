@@ -4,15 +4,16 @@ import javax.validation.constraints.NotNull;
 
 public class UserLoginDto {
     @NotNull
-    private  String userName;
+    private String userName;
     @NotNull
-    private  String password;
+    private String password;
 
     public String getUserName() {
         return userName;
     }
-    public void setUserName(String userName) {
-        this.userName = userName;
+
+    public void setUserName(String username) {
+        this.userName = username;
     }
 
     public String getPassword() {
@@ -22,4 +23,6 @@ public class UserLoginDto {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }
