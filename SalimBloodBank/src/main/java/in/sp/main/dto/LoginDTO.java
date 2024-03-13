@@ -3,19 +3,27 @@ package in.sp.main.dto;
 import jakarta.validation.constraints.NotEmpty;
 
 public class LoginDTO {
-
-    @NotEmpty
+    
+    @NotEmpty(message = "userEmail cannot be empty or null")
     private String userEmail;
-
-    @NotEmpty
+    
+    @NotEmpty(message = "password cannot be empty or null")
     private String password;
+
+    public LoginDTO() {
+    }
+
+    public LoginDTO(String userEmail, String password) {
+        this.userEmail = userEmail;
+        this.password = password;
+    }
 
     public String getUserEmail() {
         return userEmail;
     }
 
     public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+        this.userEmail = userEmail.toLowerCase();
     }
 
     public String getPassword() {
