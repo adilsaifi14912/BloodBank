@@ -5,6 +5,7 @@ public class UserLoginDetails {
     private String password;
     private String contactNumber;
 
+
     public String getUsername() {
         return username;
     }

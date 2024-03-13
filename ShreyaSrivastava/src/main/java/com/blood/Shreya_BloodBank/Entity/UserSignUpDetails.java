@@ -1,37 +1,42 @@
 package com.blood.Shreya_BloodBank.Entity;
 
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class UserSignUpDetails {
     private String username;
-    private LocalDate dob;
-    private String contactNumber;
+    private Date dob;
+    private String phone;
     private String address;
     private String password;
+    private String bloodGroup;
+    private String role;
+    private String choice;
+
 
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
+       // System.out.println(username);
         this.username = username;
     }
 
-    public LocalDate getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(LocalDate dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
-    public String getContactNumber() {
-        return contactNumber;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setPhone(String contactNumber) {
+        this.phone = contactNumber;
     }
 
     public String getAddress() {
@@ -43,10 +48,37 @@ public class UserSignUpDetails {
     }
 
     public String getPassword() {
+        if(password.isEmpty())
+            password=String.valueOf(dob);
         return password;
     }
 
     public void setPassword(String password) {
+        //System.out.println("in dto"+password);
         this.password = password;
+    }
+
+    public String getBloodGroup() {
+        return bloodGroup;
+    }
+
+    public void setBloodGroup(String bloodGroup) {
+        this.bloodGroup = bloodGroup;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getChoice() {
+        return choice;
+    }
+
+    public void setChoice(String choice) {
+        this.choice = choice;
     }
 }
