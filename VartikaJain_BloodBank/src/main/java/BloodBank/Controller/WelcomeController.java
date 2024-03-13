@@ -1,4 +1,5 @@
 package BloodBank.Controller;
+
 import BloodBank.Entity.UserLoginDetailsDTO;
 import BloodBank.Entity.UserModel;
 import BloodBank.Entity.UserSignUpDetailsDTO;
@@ -13,19 +14,23 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-public class WelcomeController {
+class WelcomeController {
     @Autowired
     private UserLoginService userLoginService;
     @Autowired
     private UserSignUpService userSignUpService;
+    private int loginattempt = 0;
+
     @GetMapping("/")
     public String welcome() {
         return "welcome";
     }
+
     @GetMapping("/login")
     public String login() {
         return "login";
     }
+
     @GetMapping("/signup")
     public String signup() {
         return "signup";
@@ -33,26 +38,41 @@ public class WelcomeController {
 
     @PostMapping("/userLoginDetails")
     public String loginUser(UserLoginDetailsDTO userLoginDetailsDTO, Model model) {
-        UserModel userModel = userLoginService.authenticateUser(userLoginDetailsDTO.getUsername(), userLoginDetailsDTO.getPassword());
-        if (userModel != null) {
-            if(userModel.isFirstTimeLogin()){
-                userLoginService.updateNewUserLogin(false, userLoginDetailsDTO.getUsername());
-                return "firstlogin";}
-            model.addAttribute("userModel", userModel);
-            switch (userModel.getRole()) {
-                case "AD":
-                    List<UserModel> userModelList = userLoginService.getAllUsers();
-                    model.addAttribute("userModelList", userModelList);
-                    return "admindashboard";
-                case "EU":
-                    return "enduserdashboard";
-                case "AG":
-                    return "agentdashboard";
-                default:
-                    return "login";
+        UserModel userModel=userLoginService.authenticateUser(userLoginDetailsDTO.getUsername());
+        if(userModel==null){
+            model.addAttribute("ErrorMessage", "Username not exists");
+            return "login";
+        }
+        if(userLoginDetailsDTO.getPassword().equals(userModel.getPassword())){
+            if (userModel.isFirstTimeLogin()) {
+                return "firstlogin";
+            } else if (userModel.getBlockedStatus()) {
+                model.addAttribute("ErrorMessage", "USER BLOCKED");
+                return "login";
+            } else{
+                model.addAttribute("userModel", userModel);
+                switch (userModel.getRole()) {
+                    case "AD":
+                        List<UserModel> userModelList = userLoginService.getAllUsers();
+                        model.addAttribute("userModelList", userModelList);
+                        return "admindashboard";
+                    case "EU":
+                        return "enduserdashboard";
+                    case "AG":
+                        return "agentdashboard";
+                    default:
+                        return "signup";
+                }
             }
-        } else {
-            model.addAttribute("ErrorMessage","Invalid Username or Password");
+        }
+        else {
+            loginattempt++;
+            if (loginattempt < 3) {
+                model.addAttribute("ErrorMessage", "Invalid Password");
+            } else {
+                userLoginService.updateBlockedStatus(true,userModel.getUsername());
+                model.addAttribute("ErrorMessage", "You are Blocked");
+            }
             return "login";
         }
     }
@@ -64,10 +84,12 @@ public class WelcomeController {
     }
     @PostMapping("/userFirstLogin")
     public String updatePassword(@RequestParam String username,
-                                 @RequestParam String newPassword){
-        userLoginService.updateUserPassword(newPassword,username);
-
-
+                                 @RequestParam String newPassword) {
+        userLoginService.updateUserPassword(newPassword, username);
         return "login";
+    }
+    @PostMapping("/logout")
+    public String logout() {
+        return "welcome";
     }
 }

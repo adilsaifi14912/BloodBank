@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserLoginService {
@@ -14,23 +13,26 @@ public class UserLoginService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserModel authenticateUser(String username, String password) {
-        UserModel userModel = userRepository.findByUsernameAndPassword(username, password);
-        return userModel;
-    }
-
     public List<UserModel> getAllUsers() {
         return userRepository.findAll();
     }
 
     public void updateUserPassword(String newPassword, String username) {
         userRepository.updatePasswordByUsername(newPassword, username);
+        updateNewUserLogin(false,username);
     }
 
-    public void  updateNewUserLogin(Boolean FirstTimeLogin, String username){
-        userRepository.updateFirstTimeLoginByUsername(FirstTimeLogin, username);
+    public void  updateNewUserLogin(boolean firstTimeLogin, String username){
+        userRepository.updateFirstTimeLoginByUsername(firstTimeLogin, username);
     }
 
+    public void updateBlockedStatus(boolean blockedStatus,String username){
+        userRepository.updateUserBlockedStatusByUsername(blockedStatus,username);
+    }
 
+    public UserModel authenticateUser(String username) {
+
+        return userRepository.findByUsername(username);
+    }
 }
 

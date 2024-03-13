@@ -63,6 +63,10 @@
             padding: 10px;
             text-align: center;
         }
+         #logoutForm button {
+                padding: 10px 20px; /* Adjust padding to increase button size */
+                font-size: 16px; /* Increase font size for better visibility */
+            }
     </style>
     <body>
         <header>
@@ -109,8 +113,10 @@
                     </c:if>
                 </c:forEach>
             </tbody>
-
-        </table>
-
+            </table>
+            <br>
+           <form id="logoutForm" action="logout" method="post">
+               <button type="submit">Logout</button>
+           </form>
     </body>
 </html>

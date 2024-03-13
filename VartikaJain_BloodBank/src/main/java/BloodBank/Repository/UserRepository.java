@@ -10,18 +10,20 @@ import javax.transaction.Transactional;
 
 public interface UserRepository extends JpaRepository<UserModel, Long> {
 
-    UserModel findByUsernameAndPassword(String username, String password);
     @Transactional
     @Modifying
     @Query("UPDATE UserModel u SET u.password = ?1 WHERE u.username = ?2")
     void updatePasswordByUsername(String password, String Username);
 
-
-
     @Transactional
     @Modifying
     @Query("UPDATE UserModel u SET u.firstTimeLogin = ?1 WHERE u.username = ?2")
     void updateFirstTimeLoginByUsername(boolean firstTimeLogin, String Username);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE UserModel u SET u.blockedStatus = ?1 WHERE u.username = ?2")
+    void updateUserBlockedStatusByUsername(boolean blockedStatus, String Username);
 
     UserModel findByUsername(String username);
 }

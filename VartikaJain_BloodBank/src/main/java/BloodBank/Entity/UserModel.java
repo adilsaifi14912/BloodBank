@@ -20,7 +20,8 @@ public class UserModel {
     private String address;
     private String password;
     private String bloodGroup;
-    private Boolean firstTimeLogin;
+    private boolean firstTimeLogin;
+    private boolean blockedStatus = false;
 
     public void setId(Long id) {
         this.id = id;
@@ -84,13 +85,19 @@ public class UserModel {
     public void setBloodGroup(String bloodGroup) {
         this.bloodGroup = bloodGroup;
     }
-
     public boolean isFirstTimeLogin() {
         return firstTimeLogin;
     }
-
     public void setFirstTimeLogin(boolean firstTimeLogin) {
         this.firstTimeLogin = firstTimeLogin;
+    }
+
+    public Boolean getBlockedStatus() {
+        return blockedStatus;
+    }
+
+    public void setBlockedStatus(Boolean blockedStatus) {
+        this.blockedStatus = blockedStatus;
     }
 }
 

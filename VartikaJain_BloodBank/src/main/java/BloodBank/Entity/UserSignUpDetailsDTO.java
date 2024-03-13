@@ -16,6 +16,7 @@ public class UserSignUpDetailsDTO {
     private String password;
     @NotBlank
     private String bloodGroup;
+//    private String role;
 
     public String getUsername() {
         return username;
@@ -66,4 +67,12 @@ public class UserSignUpDetailsDTO {
     public void setBloodGroup(String bloodGroup) {
         this.bloodGroup = bloodGroup;
     }
+
+//    public String getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(String role) {
+//        this.role = role;
+//    }
 }

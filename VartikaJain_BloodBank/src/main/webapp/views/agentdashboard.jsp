@@ -62,6 +62,10 @@
             padding: 10px;
             text-align: center;
         }
+        #logoutForm button {
+                        padding: 10px 20px; /* Adjust padding to increase button size */
+                        font-size: 16px; /* Increase font size for better visibility */
+                    }
     </style>
     <body>
         <header>
@@ -74,5 +78,9 @@
                 <p><strong>Contact Number:</strong> ${userModel.contactNumber}</p>
                 <p><strong>Address:</strong> ${userModel.address}</p>
                 <p><strong>Blood Group:</strong> ${userModel.bloodGroup}</p>
+                <br>
+                           <form id="logoutForm" action="logout" method="post">
+                               <button type="submit">Logout</button>
+                           </form>
     </body>
 </html>
