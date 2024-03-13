@@ -1,9 +1,8 @@
 package BloodBank.Entity;
 
-public class UserLoginDetails {
+public class UserLoginDetailsDTO {
     private String username;
     private String password;
-    private String contactNumber;
 
     public String getUsername() {
         return username;
@@ -21,11 +20,4 @@ public class UserLoginDetails {
         this.password = password;
     }
 
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public void setContactNumberNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }
 }
