@@ -1,8 +1,6 @@
 package com.kashif.dto;
 
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 
 public class RegistrationDTO {
 
@@ -36,7 +34,7 @@ public class RegistrationDTO {
         return name;
     }
 
-    public void setName(@NonNull String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

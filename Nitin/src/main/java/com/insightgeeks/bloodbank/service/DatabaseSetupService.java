@@ -40,7 +40,7 @@ public class DatabaseSetupService {
         user.setBlockStatus("unblocked");
 
         // Check if an admin user already exists in the database
-        Optional<UserModel> usr= userRepository.findById(1);
+        Optional<UserModel> usr= userRepository.findByRole("admin");
 
         // If no admin user exists, save the admin user to the database
         if(usr.isEmpty())

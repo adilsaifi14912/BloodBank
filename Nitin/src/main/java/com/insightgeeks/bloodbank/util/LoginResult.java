@@ -6,16 +6,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LoginResult {
-    private LoginStatus status;
+    private String status;
     private SignupDTO user;
     private int blockStatus;
 
 
-    public LoginStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(LoginStatus status) {
+    public void setStatus(String  status) {
         this.status = status;
     }
 

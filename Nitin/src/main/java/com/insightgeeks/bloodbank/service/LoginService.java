@@ -44,11 +44,11 @@ public class LoginService {
                     userLoginDTO.getPassword().equals(user.getPassword())) {
                 if (user.getPassword().equals("default")) {
                     loginResult.setUser(convertToSignupDTO(user));
-                    loginResult.setStatus(LoginStatus.RESET_PASSWORD_REQUIRED);
+                    loginResult.setStatus("reset");
                     return loginResult;
                 } else {
                     loginResult.setUser(convertToSignupDTO(user));
-                    loginResult.setStatus(LoginStatus.SUCCESSFUL_LOGIN);
+                    loginResult.setStatus("success");
                     return loginResult;
                 }
             }
@@ -69,7 +69,7 @@ public class LoginService {
 
         // Set invalid credentials status
         loginResult.setUser(null);
-        loginResult.setStatus(LoginStatus.INVALID_CREDENTIALS);
+        loginResult.setStatus("invalid");
         return loginResult;
     }
 

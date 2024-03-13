@@ -1,9 +1,9 @@
 package com.insightgeeks.bloodbank.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Component
@@ -30,7 +30,7 @@ public class SignupDTO {
     @NotEmpty(message = "user address cannot be empty or null")
     private String address;
 
-    @NotEmpty(message = "please choose a bloodGroup")
+    @NotNull
     private String bloodGroup;
 
     private int id;

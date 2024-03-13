@@ -1,18 +1,17 @@
 package com.insightgeeks.bloodbank.entities;
 
-import jakarta.persistence.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Component
-@Scope("prototype")
 public class UserModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
    private int id;
 
     @Column
