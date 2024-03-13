@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-
 /**
  * SignupService provides functionality for user signup in the Blood Bank application.
  */
@@ -19,70 +18,73 @@ public class SignupService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private UserModel user;
-
-
     /**
-     * Registers a new user based on the provided signup information.
-     *
-     * @param userDTO SignupDTO object containing user signup information
+     * Signs up a new user.
      */
-    public void signupUser(SignupDTO userDTO)
-    {
-        // Check if the parent user exists in the repository
-        Optional<UserModel> parent = userRepository.findById(userDTO.getParentId());
-        if(parent.isEmpty())
+    public void signupUser(SignupDTO userDTO) {
+
+        UserModel user = new UserModel();
+
+        // check if user with same name exists
+        Optional<UserModel> getUser = userRepository.findByUsername(userDTO.getUsername());
+        if(!getUser.isEmpty())
         {
+            throw new RuntimeException("user by this name already exists");
+        }
+
+        // Check if parent user exists
+        Optional<UserModel> parent = userRepository.findById(userDTO.getParentId());
+        if (parent.isEmpty()) {
             throw new RuntimeException("Parent does not exist");
         }
 
-        // Fetch all users from the repository to check if the provided username and phone number already exists
+        // Check if user with the same phone number or username already exists
         Iterable<UserModel> fetchUsers = userRepository.findAll();
-        for(UserModel user:fetchUsers)
-        {
-            if((userDTO.getPhoneNumber() == user.getPhoneNumber()) && userDTO.getUsername().equals(user.getUserName()))
-            {
-                // If a user with the same phone number and username already exists, throw an exception
-                throw new RuntimeException("user already exists");
+        for (UserModel fetchedUser : fetchUsers) {
+            if ((userDTO.getPhoneNumber() == fetchedUser.getPhoneNumber()) && userDTO.getUsername().equals(fetchedUser.getUsername())) {
+                throw new RuntimeException("User already exists");
             }
         }
 
-        // Validate if the username is empty or contains only whitespace
-        if(userDTO.getUsername().trim().isEmpty()) {
+        // Validate username
+        if (userDTO.getUsername().trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be empty or contain only whitespace");
         }
 
-        // Validate if the passwords match
-        if (!userDTO.getSetpassword().equals(userDTO.getRecheckpassword())) {
+        // Validate password match
+        if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
             throw new RuntimeException("Passwords do not match");
         }
 
-        // Validate if the phone number is of 10 digits
-        if(String.valueOf(userDTO.getPhoneNumber()).length() != 10)
-        {
+        // Validate phone number length
+        if (String.valueOf(userDTO.getPhoneNumber()).length() != 10) {
             throw new IllegalArgumentException("Phone number must be of 10 digits");
         }
 
-        // Validate if the address is empty or contains only whitespace
-        if(userDTO.getAddress().trim().isEmpty()) {
-            throw new IllegalArgumentException("address cannot be empty or contain only whitespace");
+        // Validate address
+        if (userDTO.getAddress().trim().isEmpty()) {
+            throw new IllegalArgumentException("Address cannot be empty or contain only whitespace");
         }
 
-        // Convert date of birth string to LocalDate object
+        // Parse date of birth
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate dateOfBirthConverted = LocalDate.parse(userDTO.getDateOfBirth(), formatter);
+        LocalDate userCreationDate = LocalDate.now();
 
-        // Populate UserModel object with user signup information
-        user.setUserName(userDTO.getUsername());
+        // Set user properties
+        user.setUsername(userDTO.getUsername());
         user.setRole("user");
-        user.setPassword(userDTO.getSetpassword());
-        user.setDob(dateOfBirthConverted);
+        user.setPassword(userDTO.getPassword());
+        user.setDateOfBirth(dateOfBirthConverted);
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setAdddress(userDTO.getAddress());
+        user.setBloodGroup(userDTO.getBloodGroup());
+        user.setCreatedOn(userCreationDate);
+        user.setCreatedBy("admin");
+        user.setParentId(userDTO.getParentId());
+        user.setBlockStatus("unblocked");
 
-        // Save the user to the repository
+        // Save user
         userRepository.save(user);
-
     }
 }

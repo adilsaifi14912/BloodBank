@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,19 +59,20 @@
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <h2>Update Password</h2>
         <!-- Form for submitting login data -->
-        <form action="userLoginDetails" method="post">
+        <form action="userFirstLogin" method="post">
             <label for="username">Username:</label><br>
             <input type="text" id="username" name="username" required><br>
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" required><br><br>
-            <label for="phoneNumber">Contact Number:</label><br>
-            <input type="tel" id="phoneNumber" name="phoneNumber" required><br>
+            <label for="currentPassword">Old Password:</label><br>
+            <input type="password" id="currentPassword" name="password" required><br>
+            <label for="newPassword">New Password:</label><br>
+            <input type="password" id="newPassword" name="newPassword" required><br><br>
             <input type="submit" value="Submit">
         </form>
     </div>
 </body>
 </html>
+
 
 

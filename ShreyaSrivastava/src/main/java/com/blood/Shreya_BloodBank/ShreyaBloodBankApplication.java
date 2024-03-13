@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ShreyaBloodBankApplication {
 
 	public static void main(String[] args) {
+		//System.out.println("in application");
 		SpringApplication.run(ShreyaBloodBankApplication.class, args);
+
 	}
 
 }
