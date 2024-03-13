@@ -59,10 +59,6 @@
             background-color: #45a049;
         }
 
-        .error-message {
-            color: red;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
@@ -73,11 +69,9 @@
         <form action="userLogin" method="post" id="signupForm">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
-             <span style="color: red;"><c:out value="${errors.getFieldError('name').defaultMessage}"/></span>
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password">
-             <span style="color: red;"><c:out value="${errors.getFieldError('name').defaultMessage}"/></span>
+            <input type="password" id="password" name="password" required>
 
             <input type="submit" value="login">
             <h3>Don't have an account? Please Sign up!</h3>
