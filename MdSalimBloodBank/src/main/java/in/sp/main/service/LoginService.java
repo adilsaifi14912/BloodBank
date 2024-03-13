@@ -1,10 +1,11 @@
 package in.sp.main.service;
 
-import java.util.List;
+import in.sp.main.beans.UserModel;
+import in.sp.main.dto.LoginDTO;
 
-import in.sp.main.beans.User;
+import java.util.List;
 
 public interface LoginService
 {
-	public boolean loginService(String email, String password);
+	public List<UserModel> loginService(LoginDTO loginDTO);
 }

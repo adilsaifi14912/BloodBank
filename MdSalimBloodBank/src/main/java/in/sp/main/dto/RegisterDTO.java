@@ -1,6 +1,9 @@
 package in.sp.main.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
 
 public class RegisterDTO {
 
@@ -18,6 +21,14 @@ public class RegisterDTO {
 
     @NotEmpty
     private String city;
+
+    @NotNull
+    private long phoneNumber;
+
+    private int id;
+    private String role;
+
+    private LocalDate dateOfBirth;
 
     public String getUsername() {
         return username;
@@ -57,5 +68,21 @@ public class RegisterDTO {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

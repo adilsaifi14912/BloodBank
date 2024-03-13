@@ -12,10 +12,14 @@
 			<br/> <span class="body_text_title" style="color: orange;"> Login Form </span> <br/> <br/> <br/>
 			
 			<form action="loginForm" method="post">
-				Email Id : <input type="text" name="email1" /> <br/> <br/>
-				Password : <input type="password" name="pass1" /> <br/> <br/>
+				Email Id : <input type="text" name="userEmail" /> <br/> <br/>
+				Password : <input type="password" name="password" /> <br/> <br/>
 				<input type="submit" value="Login" /> 
 			</form>
+
+			<div class="signup-link">
+                    <p>Not Registered? <a href="registerPage">Signup</a></p>
+                </div>
 			
 		</div>
 	</body>

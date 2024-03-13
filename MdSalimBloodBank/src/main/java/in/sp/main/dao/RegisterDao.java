@@ -1,8 +1,8 @@
 package in.sp.main.dao;
 
-import in.sp.main.beans.User;
+import in.sp.main.beans.UserModel;
 
 public interface RegisterDao
 {
-	public boolean registerDao(User std);
+	public boolean registerDao(UserModel std);
 }

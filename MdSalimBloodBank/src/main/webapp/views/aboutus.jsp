@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<div class="body_div">
-			<br/> <span class="body_text_title" style="color: red"> About "Smart Programming" </span>
+			<br/> <span class="body_text_title" style="color: red"> About "Welcome to profile" </span>
 		</div>
 	</body>
 </html>

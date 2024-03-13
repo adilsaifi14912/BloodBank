@@ -9,10 +9,10 @@
 	</head>
 	<body>
 		<div class="body_div">
-			<br/> <span class="body_text_title" style="color: blue"> Contact "Smart Programming" </span> <br/> <br/> <br/>
+			<br/> <span class="body_text_title" style="color: blue"> Contact "I am .." </span> <br/> <br/> <br/>
 			<b> Name : </b> Md Salim <br/> <br/>
 			<b> Phone No : </b> +91 62838-30308, +91 98887-55565 <br/> <br/>
-			<b> City : </b> Chandigarh, Delhi <br/> <br/>
+			<b> City : </b> Bihar, Delhi <br/> <br/>
 		</div>
 	</body>
 </html>

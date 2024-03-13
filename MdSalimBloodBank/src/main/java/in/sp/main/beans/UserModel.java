@@ -9,20 +9,20 @@ import java.time.LocalDate;
 @Entity
 @Component
 @Scope("prototype")
-public class User
+public class UserModel
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Column
-	private String name;
+	private String username;
 
 	@Column
-	private String email;
+	private String userEmail;
 
 	@Column
-	private String address;
+	private String city;
 
 	@Column
 	private long phoneNumber;
@@ -47,28 +47,28 @@ public class User
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String username) {
+		this.username = username;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUserEmail() {
+		return userEmail;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getCity() {
+		return city;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public long getPhoneNumber() {

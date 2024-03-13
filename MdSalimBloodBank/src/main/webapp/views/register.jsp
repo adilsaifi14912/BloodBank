@@ -12,20 +12,26 @@
 			<br/> <span class="body_text_title" style="color: green"> Registration Form </span> <br/> <br/> <br/>
 			
 			<form action="regForm" method="post">
-				Name : <input type="text" name="name1" /> <br/> <br/>
-				Email Id : <input type="text" name="email1" /> <br/> <br/>
-				Password : <input type="password" name="pass1" /> <br/> <br/>
-				Gender : <input type="radio" name="gender1" value="Male" /> Male <input type="radio" name="gender1" value="Female" /> Female <br/> <br/>
-				City : <select name="city1">
+				Name : <input type="text" name="username" /> <br/> <br/>
+				Email Id : <input type="text" name="userEmail" /> <br/> <br/>
+				Password : <input type="password" name="password" /> <br/> <br/>
+				Gender : <input type="radio" name="gender" value="Male" /> Male <input type="radio" name="gender1" value="Female" /> Female <br/> <br/>
+				City : <select name="city">
 							<option>Select City</option>
 							<option value="Delhi">Delhi</option>
 							<option value="Mumbai">Mumbai</option>
 							<option value="Pune">Pune</option>
 							<option value="Chandigarh">Chandigarh</option>
-						</select> <br/> <br/>
-				<input type="submit" value="Register" /> 
+						</select> <br/>
+				PhoneNumber : <input type="number" name="phoneNumber"> <br>
+				Date of Birth : <input type="date" name="dateOfBirth">
+				<input type="submit" value="Register" />
+
+
 			</form>
-			
+			<div class="form-group">
+                            <p>Already a user? <a href="loginPage">Login</a></p>
+                        </div>
 		</div>
 	</body>
 </html>

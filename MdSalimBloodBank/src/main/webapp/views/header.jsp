@@ -10,7 +10,6 @@
 	<body>
 		<div class="header_div">
 			<div class="header_logo_div">
-				<img alt="Smart Programming" src="/images/logo.png" width="50" height="50">
 			</div>
 			<div class="header_menubar_div">
 				<jsp:include page="menubar.jsp" />
