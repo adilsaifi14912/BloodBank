@@ -5,13 +5,15 @@ import com.kashif.dto.RegistrationDTO;
 import com.kashif.entity.UserRegistration;
 import com.kashif.repository.UserRepo;
 import com.kashif.service.UserRegistrationService;
-import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -64,7 +66,7 @@ public class AuthenticationController {
 
         String username = loginDTO.getUsername();
         String password = loginDTO.getPassword();
-        if (username.isEmpty() || password.isEmpty() || username.isBlank() || password.isBlank()) {
+        if (username==null || password==null || username.isEmpty() || password.isEmpty()) {
 
             model.addAttribute("errorMsg", "Login failed: Invalid Username ");
             return "login";

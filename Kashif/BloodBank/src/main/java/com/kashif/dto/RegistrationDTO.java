@@ -1,8 +1,6 @@
 package com.kashif.dto;
 
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 
 public class RegistrationDTO {
 
@@ -29,15 +27,15 @@ public class RegistrationDTO {
     }
 
     public void setEmail(String email) {
-        this.email = email.strip();
+        this.email = email;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(@NonNull String name) {
-        this.name = name.strip();
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -45,7 +43,7 @@ public class RegistrationDTO {
     }
 
     public void setPassword(String password) {
-        this.password = password.strip();
+        this.password = password;
     }
 
     public String getDob() {
@@ -61,7 +59,7 @@ public class RegistrationDTO {
     }
 
     public void setUsername(String username) {
-        this.username = username.toLowerCase().strip();
+        this.username = username.toLowerCase();
     }
 
     public String getRole() {
@@ -77,7 +75,7 @@ public class RegistrationDTO {
     }
 
     public void setAddress(String address) {
-        this.address = address.strip();
+        this.address = address;
     }
 
     @Override

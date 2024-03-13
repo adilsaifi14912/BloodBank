@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
  <html lang="en">
  <head>
      <meta charset="UTF-8">
@@ -64,14 +64,16 @@
          <form action="userSignupDetails" method="post">
              <label for="username">Username:</label><br>
              <input type="text" id="username" name="username" required><br>
+             <label for="bloodgroup">BloodGroup:</label><br>
+             <input type="text" id="bloodGroup" name="bloodGroup" required><br>
              <label for="dob">Date of Birth (MM/DD/YYYY):</label><br>
-             <input type="date" id="dob" name="dob" required><br><br>
+             <input type="date" id="dob" name="dob" required><br>
              <label for="contact_number">Contact Number:</label><br>
-             <input type="tel" id="contact_number" name="contact_number" required><br>
+             <input type="tel" id="contactNumber" name="contactNumber" required><br>
              <label for="address">Address:</label><br>
-             <textarea id="address" name="address" rows="4" cols="50" required></textarea><br><br>
+             <textarea id="address" name="address" rows="4" cols="50" required></textarea><br>
              <label for="password">Password:</label><br>
-             <input type="password" id="password" name="password" required><br><br>
+             <input type="password" id="password" name="password"><br><br>
              <input type="submit" value="Submit">
          </form>
      </div>

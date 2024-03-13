@@ -20,40 +20,40 @@ public class UserRegistrationService {
 
     public RegistrationDTO registerUser(RegistrationDTO registrationDTO){
 
-        if(registrationDTO.getUsername()!=null && !registrationDTO.getUsername().isBlank() && !repo.existsByUsername(registrationDTO.getUsername())){
+        if(registrationDTO.getUsername()!=null && !registrationDTO.getUsername().isEmpty() && !repo.existsByUsername(registrationDTO.getUsername())){
             userRegistration.setUsername(registrationDTO.getUsername());
         }else {
             throw new RuntimeException("Username might be  null or Already Exists");
         }
-        if(registrationDTO.getName()!=null && !registrationDTO.getName().isBlank()){
+        if(registrationDTO.getName()!=null && !registrationDTO.getName().isEmpty()){
             userRegistration.setName(registrationDTO.getName());
         }else {
             throw new RuntimeException("Name Can't be null");
         }
-        if(registrationDTO.getEmail()!=null && !registrationDTO.getEmail().isBlank()){
+        if(registrationDTO.getEmail()!=null && !registrationDTO.getEmail().isEmpty()){
             userRegistration.setEmail(registrationDTO.getEmail());
         }else {
             throw new RuntimeException("Email Can't be null");
         }
-        if(registrationDTO.getAddress()!=null && !registrationDTO.getAddress().isBlank()) {
+        if(registrationDTO.getAddress()!=null && !registrationDTO.getAddress().isEmpty()) {
             userRegistration.setAddress(registrationDTO.getAddress());
         }else {
             throw new RuntimeException("Address Can't be null");
         }
-        if(registrationDTO.getPassword()!=null && !registrationDTO.getPassword().isBlank()) {
+        if(registrationDTO.getPassword()!=null && !registrationDTO.getPassword().isEmpty()) {
             userRegistration.setPassword(registrationDTO.getPassword());
             registrationDTO.setPassword("*******");
         }else {
             throw new RuntimeException("Password Can't be null");
         }
 
-        if(registrationDTO.getDob()!=null && !registrationDTO.getDob().isBlank()) {
+        if(registrationDTO.getDob()!=null && !registrationDTO.getDob().isEmpty()) {
             userRegistration.setDob(LocalDate.parse(registrationDTO.getDob()));
 
         }else {
             throw new RuntimeException("DOB Can't be null");
         }
-        if(registrationDTO.getBloodGroup()!=null && !registrationDTO.getBloodGroup().isBlank()) {
+        if(registrationDTO.getBloodGroup()!=null && !registrationDTO.getBloodGroup().isEmpty()) {
             userRegistration.setBloodGroup(registrationDTO.getBloodGroup());
         }else {
             throw new RuntimeException("Blood Group Can't be null");
