@@ -1,8 +1,6 @@
 package com.kashif.entity;
-
-import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
-
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 
