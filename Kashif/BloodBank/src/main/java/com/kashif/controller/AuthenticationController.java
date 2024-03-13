@@ -64,7 +64,7 @@ public class AuthenticationController {
 
         String username = loginDTO.getUsername();
         String password = loginDTO.getPassword();
-        if (username.isEmpty() || password.isEmpty() || username.isBlank() || password.isBlank()) {
+        if (username==null || password==null || username.isEmpty() || password.isEmpty()) {
 
             model.addAttribute("errorMsg", "Login failed: Invalid Username ");
             return "login";
