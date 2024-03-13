@@ -1,49 +1,62 @@
 package com.example.Charul_BloodBank.controller;
 
-import com.example.Charul_BloodBank.dto.UserDTO;
-import com.example.Charul_BloodBank.model.User;
-import com.example.Charul_BloodBank.service.UserService;
+import com.example.Charul_BloodBank.dto.UserLoginDTO;
+import com.example.Charul_BloodBank.dto.UserSignUpDTO;
+import com.example.Charul_BloodBank.model.UserModel;
+import com.example.Charul_BloodBank.service.LoginService;
+import com.example.Charul_BloodBank.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
+@Controller
 public class UserController {
-
     @Autowired
-    private UserService userService;
+    private SignUpService userSignupService;
+    @Autowired
+    private LoginService userLoginService;
 
-    @GetMapping("/")
-    public String showSignUpForm(Model model) {
-        model.addAttribute("userDTO", new UserDTO());
-        return "signup";
-    }
-
-    @PostMapping("/signup")
-    public String signUp(@ModelAttribute("userDTO") UserDTO userDTO) {
-        userService.saveUser(userDTO);
-        return "redirect:/login";
-    }
-
-    @GetMapping("/login")
-    public String showLoginForm() {
+    @RequestMapping("/")
+    public String login() {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        User user = userService.findByUsername(username);
-        if (user != null && user.getPassword().equals(password)) {
-            return "redirect:/success";
-        } else {
-            return "redirect:/login?error";
-        }
+    @RequestMapping("/signup")
+    public String signup() {
+        return "signup";
     }
 
-    @GetMapping("/success")
-    public String showSuccessPage() {
-        return "success";
+    @PostMapping("/userLogin")
+    public String userLogin(UserLoginDTO userLoginDto, Model model) {
+        if (userLoginService.authenticate(userLoginDto))
+        {
+            UserModel user = userLoginService.getUser(userLoginDto.getUsername());
+            String userRole = user.getRole();
+            model.addAttribute("user", user);
+            if ("admin".equals(userRole)) {
+                List<UserModel> userList = userSignupService.getAllUsers();
+                model.addAttribute("userList", userList);
+                return "adminDashboard";
+            } else if ("agent".equals(userRole)) {
+                return "agentDashboard";
+            } else if ("enduser".equals(userRole)) {
+                return "endUserDashboard";
+            } else {
+                return "login";
+            }
+        }
+        else
+            return "login";
+    }
+    @ResponseBody
+    @PostMapping("/register")
+    public String register(@ModelAttribute @Validated UserSignUpDTO userDto) {
+                userSignupService.insert(userDto);
+        return "Registered";
+
     }
 }
-
