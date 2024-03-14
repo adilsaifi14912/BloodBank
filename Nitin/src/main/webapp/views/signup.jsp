@@ -116,13 +116,13 @@
 
             <div class="form-group">
                 <label for="password">Set-Password:</label>
-                <input type="password" id="setPassword" name="setpassword" required>
+                <input type="password" id="setPassword" name="password" required>
             </div>
 
 
             <div class="form-group">
                   <label for="password">Confirm-Password:</label>
-                  <input type="password" id="recheckPassword" name="recheckpassword" required>
+                  <input type="password" id="recheckPassword" name="confirmPassword" required>
             </div>
 
 
@@ -142,6 +142,21 @@
                 <label for="address">Address:</label>
                 <input type="text" id="address" name="address">
             </div>
+
+            <div class="form-group">
+                <label for="bloodGroup">Blood Group:</label>
+                <select id="bloodGroup" name="bloodGroup">
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+            </div>
+
 
 
             <div class="form-group">

@@ -28,15 +28,19 @@ public class DatabaseSetupService {
     public void setupDatabase()
     {
         // Create a default admin user
-        user.setUserName("admin1");
+        user.setUsername("admin1");
         user.setRole("admin");
         user.setPassword("sample");
-        user.setDob(LocalDate.of(1990, 03, 06));
+        user.setDateOfBirth(LocalDate.of(1990, 03, 06));
         user.setPhoneNumber(8899287645l);
         user.setAdddress("Pinnacle Bussiness Park, InsightGeeksSolutions Pvt.Ltd");
+        user.setCreatedBy("self");
+        user.setBloodGroup("B+");
+        user.setCreatedOn(LocalDate.now());
+        user.setBlockStatus("unblocked");
 
         // Check if an admin user already exists in the database
-        Optional<UserModel> usr= userRepository.findById(1);
+        Optional<UserModel> usr= userRepository.findByRole("admin");
 
         // If no admin user exists, save the admin user to the database
         if(usr.isEmpty())
