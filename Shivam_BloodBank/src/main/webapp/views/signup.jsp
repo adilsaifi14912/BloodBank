@@ -39,13 +39,16 @@
         input[type="password"],
         input[type="date"],
         input[type="email"],
-        input[type="submit"] {
+        input[type="submit"] ,select{
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+        }
+        select{
+            background-color:white;
         }
 
         input[type="submit"] {
@@ -59,10 +62,6 @@
             background-color: #45a049;
         }
 
-        .error-message {
-            color: red;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
@@ -73,28 +72,36 @@
         <form action="register" method="post" id="signupForm">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
-             <span style="color: red;"><c:out value="${errors.getFieldError('name').defaultMessage}"/></span>
 
            <label for="name">Name:</label>
            <input type="text" id="name" name="name" >
-           <span style="color: red;"><c:out value="${errors.getFieldError('name').defaultMessage}"/></span>
 
            <label for="dob">DOB:</label>
-            <input type="date" id="dob" name="dob" required>
+            <input type="date" id="dob" name="dob" max ="2024-03-01" required>
+
+            <label for="bloodGroup">Blood Group:</label>
+                            <select id="bloodGroup" name="bloodGroup">
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" >
 
             <input type="submit" value="Sign Up">
-            <div th:if="${message}" class="alert alert-success">
-            <strong>${message}</strong>
+            <div th:if="${message}">
+            <strong style="color: blue;">${message}</strong>
             <h3>If you have already an account? Please Login!</h3>
-            <a href="login">Login</a>
+            <a href="/">Login</a>
             </div>
         </form>
     </div>
-
-
     </script>
 </body>
 </html>

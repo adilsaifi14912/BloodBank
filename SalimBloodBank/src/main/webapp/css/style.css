@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif; /* Set a common font */
+    background-image: url('background.jpg'); /* Add a background image */
+    background-size: cover; /* Cover the entire background */
+    background-position: center; /* Center the background image */
+}
+
+.header_div {
+    width: 100%;
+    height: 100px;
+    background-color: #B22222; /* Dark red */
+    float: left;
+}
+
+.header_logo_div {
+    float: left;
+    margin-left: 20px; /* Adjusted margin */
+    margin-top: 20px;
+}
+
+.header_logo_div img {
+    height: 60px; /* Adjust the height of the logo */
+}
+
+.header_menubar_div {
+    float: right;
+    margin-right: 20px; /* Adjusted margin */
+    margin-top: 30px; /* Adjusted margin */
+}
+
+.menubar_div {
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    padding: 10px 0; /* Add padding */
+    overflow: hidden; /* Clear floats */
+}
+
+.menubar_div a {
+    float: left;
+    padding: 10px 20px; /* Increase padding */
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+}
+
+.menubar_div a:hover {
+    background-color: #CD5C5C; /* Lighter red */
+    color: black;
+}
+
+.footer_div {
+    height: 100px;
+    width: 100%;
+    background-color: #B22222; /* Dark red */
+    text-align: center;
+    float: left;
+}
+
+.footer_text {
+    color: white;
+}
+
+.body_div {
+    width: 100%;
+    min-height: 600px; /* Ensure a minimum height */
+    float: left;
+    text-align: center;
+}
+
+.body_text_title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #B22222; /* Dark red */
+}
+
+
