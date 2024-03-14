@@ -17,7 +17,6 @@ public class LoginSignUpController {
     @Autowired
     private UserService userService;
 
-
     @PostMapping("/addData")
     public String addData( UserSignUpDTO userSignUpDTO)
     {
@@ -60,7 +59,7 @@ public class LoginSignUpController {
                 model.addAttribute("errorMsg", "Invalid Password");
             } else {
                 userService.updateBlockedStatus(true,userModel.getUsername());
-                model.addAttribute("errorMsg", "You are Blocked");
+                model.addAttribute("errorMsg", "You are Blocked!!");
             }
             return "login";
         }
