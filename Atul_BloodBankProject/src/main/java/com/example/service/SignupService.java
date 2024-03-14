@@ -22,11 +22,13 @@ public class SignupService {
         userModel.setUserName(userRegisterDto.getUserName());
         userModel.setName(userRegisterDto.getName());
         userModel.setCreatedOn();
-        userModel.setCreatedBy("Admin");
+        userModel.setCreatedBy(userRegisterDto.getCreatedBy());
         userModel.setPassword(userRegisterDto.getPassword());
         userModel.setDob(userRegisterDto.getDob());
         userModel.setBloodGroup(userRegisterDto.getBloodGroup());
-        userModel.setRole("EndUser");
+        userModel.setRole(userRegisterDto.getRole());
+        userModel.setAddress(userRegisterDto.getAddress());
+        userModel.setCommission(userRegisterDto.getCommission());
         databaseRepository.save(userModel);
         return false;
     }

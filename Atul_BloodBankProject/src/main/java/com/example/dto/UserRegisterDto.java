@@ -23,6 +23,8 @@ public class UserRegisterDto {
     private boolean isFirstLogin;
     private boolean locked;
     private int loginAttempts;
+    private float commission;
+    private String address;
 
     public String getUserName() {
         return userName;
@@ -110,5 +112,21 @@ public class UserRegisterDto {
 
     public void setLoginAttempts(int loginAttempts) {
         this.loginAttempts = loginAttempts;
+    }
+
+    public float getCommission() {
+        return commission;
+    }
+
+    public void setCommission(float commission) {
+        this.commission = commission;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

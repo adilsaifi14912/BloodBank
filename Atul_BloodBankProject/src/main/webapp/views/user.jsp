@@ -1,5 +1,5 @@
 <%@ page isELIgnored="false" %>
-<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -67,11 +67,17 @@
         .back-button a:hover {
             background-color: #2980b9;
         }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>${dto.role} Logged In</h2>
+            <div class="back-button">
+            <h2>${dto.role} Logged In</h2>
+               <c:if test="${dto.role eq 'AGENT'}">
+                <a href="signup">Create EndUser</a>
+                </c:if>
+             </div>
 
         <div class="user-details">
             <div>
@@ -101,7 +107,7 @@
         </div>
 
         <div class="back-button">
-            <a href="login">Log Out</a>
+            <a href="logout">Log Out</a>
         </div>
     </div>
 </body>

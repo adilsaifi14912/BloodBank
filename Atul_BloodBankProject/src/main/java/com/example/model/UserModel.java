@@ -41,6 +41,10 @@ public class UserModel {
     private boolean locked = false;  // New field for tracking user account lock status
     @Column
     private int loginAttempts = 0;  // New field for tracking login attempts
+    @Column
+    private float commission;
+    @Column
+    private String address;
 
     public String getUserName() {
         return userName;
@@ -128,5 +132,21 @@ public class UserModel {
 
     public void setLoginAttempts(int loginAttempts) {
         this.loginAttempts = loginAttempts;
+    }
+
+    public float getCommission() {
+        return commission;
+    }
+
+    public void setCommission(float commission) {
+        this.commission = commission;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

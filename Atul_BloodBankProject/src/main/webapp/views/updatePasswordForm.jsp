@@ -68,10 +68,7 @@
                 <label for="userName">Username:</label>
                 <input type="text" id="userName" name="userName" placeholder="Enter your username" required />
             </div>
-            <div>
-                  <label for="currentpassword">Current Password:</label>
-                  <input type="password"  name="currentpassword" placeholder="Current password" required />
-                  </div>
+
             <div>
                 <label for="newPassword">New Password:</label>
                 <input type="password" id="password" name="password" placeholder="Enter new password" required />

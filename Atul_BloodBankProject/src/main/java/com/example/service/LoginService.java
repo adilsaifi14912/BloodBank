@@ -46,7 +46,7 @@ public class LoginService {
 
     }
 
-    //use for fetching all users which is not "admin", for displaying in the dashboard in Admin panel
+    //use for fetching all users which is not "admin", for displaying in the dashboard of Admin panel
     public List<UserRegisterDto> fetchSignedupUsers() {
         Iterable<UserModel> users = databaseRepository.findAll();
         List<UserRegisterDto> signedupUsers = new ArrayList<>();

@@ -9,6 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 @SpringBootApplication
 public class AtulBloodBankProjectApplication {
     public static void main(String[] args) {
@@ -17,7 +20,7 @@ public class AtulBloodBankProjectApplication {
         AgentService agentService=context.getBean(AgentService.class);
         adminService.setAdmin();  //for set admin at application starting
         agentService.setAgent();  //for set agent at application starting
-
+//       context.registerShutdownHook();
 
     }
     @Bean
