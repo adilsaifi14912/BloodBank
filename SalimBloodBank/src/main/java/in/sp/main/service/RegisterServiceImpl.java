@@ -22,28 +22,28 @@ public class RegisterServiceImpl implements RegisterService
 	{
 
 		UserModel user = new UserModel();
-		Iterable<UserModel> users = userRepository.findAll();
-		for(UserModel getUser:users)
-		{
-			if((registerDTO.getUserEmail().equals(getUser.getUserEmail())) &&
-					(registerDTO.getPassword().equals(getUser.getPassword())))
-			{
-				throw new RuntimeException("user already exists");
-			}
-		}
+//		Iterable<UserModel> users = userRepository.findAll();
+//		for(UserModel getUser:users)
+//		{
+//			if((registerDTO.getUserEmail().equals(getUser.getUserEmail())) &&
+//					(registerDTO.getPassword().equals(getUser.getPassword())))
+//			{
+//				throw new RuntimeException("user already exists");
+//			}
+//		}
 
 		// check if user with same name exists
-		Optional<UserModel> getUser = userRepository.findByUsername(registerDTO.getUsername());
+		Optional<UserModel> getUser = userRepository.findByUserEmail(registerDTO.getUserEmail());
 		if(!getUser.isEmpty())
 		{
-			throw new RuntimeException("user by this name already exists");
+			throw new RuntimeException("user by this email already exists");
 		}
 
 		// Check if parent user exists
-		Optional<UserModel> parent = userRepository.findById(registerDTO.getParentId());
-		if (parent.isEmpty()) {
-			throw new RuntimeException("Parent does not exist");
-		}
+//		Optional<UserModel> parent = userRepository.findById(registerDTO.getParentId());
+//		if (parent.isEmpty()) {
+//			throw new RuntimeException("Parent does not exist");
+//		}
 
 		// Check if user with the same phone number or username already exists
 		Iterable<UserModel> fetchUsers = userRepository.findAll();
@@ -84,7 +84,6 @@ public class RegisterServiceImpl implements RegisterService
         user.setBloodGroup(registerDTO.getBloodGroup());
         user.setCreatedOn(LocalDate.now());
         user.setCreatedBy("admin");
-        user.setParentId(registerDTO.getParentId());
         user.setBlockStatus("unblocked");
 
 

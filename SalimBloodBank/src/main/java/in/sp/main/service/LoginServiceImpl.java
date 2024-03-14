@@ -54,7 +54,6 @@ public class LoginServiceImpl implements LoginService
 				if (user.getPassword().equals("default")) {
 					loginResult.setUser(convertToRegisterDTO(user));
 					loginResult.setStatus("reset");
-					System.out.println("inside reset");
 					return loginResult;
 				} else {
 					loginResult.setUser(convertToRegisterDTO(user));

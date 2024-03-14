@@ -1,6 +1,6 @@
 package in.sp.main.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 public class LoginDTO {
     

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class MyController
@@ -159,7 +159,7 @@ public class MyController
 		if(bindingResult.hasErrors())
 		{
 			model.addAttribute("formatError",bindingResult.getFieldError().getDefaultMessage());
-			return "login-page";
+			return "register-page";
 		}
 		try{
 			registerService.registerService(registerDTO);

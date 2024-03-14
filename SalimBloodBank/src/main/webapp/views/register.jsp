@@ -15,7 +15,6 @@
 				Name : <input type="text" name="username" /> <br/> <br/>
 				Email Id : <input type="text" name="userEmail" /> <br/> <br/>
 				Password : <input type="password" name="password" /> <br/> <br/>
-				ParentId : <input type="number" name="parentId"> <br><br>
 				Gender : <input type="radio" name="gender" value="Male" /> Male <input type="radio" name="gender" value="Female" /> Female <br/> <br/>
 				City : <select name="city">
 							<option>Select City</option>
@@ -39,7 +38,6 @@
 
 
 				<input type="submit" value="Register" />
-
 
 			</form>
 			<div class="form-group">

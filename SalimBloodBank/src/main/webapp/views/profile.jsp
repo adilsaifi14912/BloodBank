@@ -14,9 +14,9 @@
 			<br/> <span class="body_text_title" style="color: teal;"></span> <br/> <br/> <br/>
 			<b> Email : </b> ${user.getUserEmail()} <br/> <br/>
 			<b> Gender : </b> ${user.getGender()} <br/> <br/>
+			<b> Blood Group : </b> ${user.getBloodGroup()} <br/> <br/>
+
 			<b> City : </b> ${user.getCity()} <br/> <br/>
-
-
 
 		</div>
 

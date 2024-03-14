@@ -31,7 +31,6 @@ public class DatabaseSetupService {
         user.setBloodGroup("B+");
         user.setCreatedOn(LocalDate.now());
         user.setCreatedBy("self");
-        user.setParentId(0);
         user.setBlockStatus("unblocked");
         user.setUserEmail("admin990@gmail.com");
         user.setGender("male");
