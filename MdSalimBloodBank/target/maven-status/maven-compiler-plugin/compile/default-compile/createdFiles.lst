@@ -1,0 +1,15 @@
+in/sp/main/service/DatabaseSetupService.class
+in/sp/main/service/RegisterServiceImpl.class
+in/sp/main/dto/LoginDTO.class
+in/sp/main/SpringbootLoginRegProfileAppApplication.class
+in/sp/main/dao/RegisterDao.class
+in/sp/main/dao/LoginDao.class
+in/sp/main/controllers/AdminController.class
+in/sp/main/service/RegisterService.class
+in/sp/main/dao/LoginDaoImpl.class
+in/sp/main/controllers/MyController.class
+in/sp/main/dto/RegisterDTO.class
+in/sp/main/service/LoginServiceImpl.class
+in/sp/main/service/LoginService.class
+in/sp/main/beans/UserModel.class
+in/sp/main/dao/UserRepository.class

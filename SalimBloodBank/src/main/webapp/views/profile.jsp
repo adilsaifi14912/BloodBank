@@ -4,16 +4,22 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<title>Profile</title>
+		<title>User Profile</title>
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
 	</head>
 	<body>
+
+	<h2> End User Profile </h2>
 		<div class="body_div">
-			<br/> <span class="body_text_title" style="color: teal;"> Welcome : ${session_name} </span> <br/> <br/> <br/>
-			<b> Email : </b> ${session_email} <br/> <br/>
-			<b> Gender : </b> ${session_gender} <br/> <br/>
-			<b> City : </b> ${session_city} <br/> <br/>
+			<br/> <span class="body_text_title" style="color: teal;"></span> <br/> <br/> <br/>
+			<b> Email : </b> ${user.getUserEmail()} <br/> <br/>
+			<b> Gender : </b> ${user.getGender()} <br/> <br/>
+			<b> Blood Group : </b> ${user.getBloodGroup()} <br/> <br/>
+
+			<b> City : </b> ${user.getCity()} <br/> <br/>
+
 		</div>
+
 		<img src="" alt="Image Description">
 	</body>
 </html>
