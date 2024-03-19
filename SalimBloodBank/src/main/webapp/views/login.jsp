@@ -10,7 +10,9 @@
 	<body>
 		<div class="body_div">
 			<br/> <span class="body_text_title" style="color: orange;"> Login Form </span> <br/> <br/> <br/>
-			
+			<p>${formatError}</p>
+                <p>${blockStatus}</p>
+                <p>${passwordResetStatus}</p>
 			<form action="loginForm" method="post">
 				Email Id : <input type="text" name="userEmail" /> <br/> <br/>
 				Password : <input type="password" name="password" /> <br/> <br/>
