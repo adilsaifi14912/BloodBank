@@ -63,7 +63,7 @@
 <h4 style="color:blue"> ${success} </h4>
 <c:if test="${not empty errorMsg}">
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-  <strong>Login failed ${times}:</strong> ${errorMsg}
+  <strong>Failed ${times}:</strong> ${errorMsg}
   <button style="color:black;background-color: grey;" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 </c:if>
