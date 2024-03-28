@@ -42,13 +42,13 @@ public class LoginService {
         for (UserModel user : users) {
             if ((userLoginDTO.getUsername().equals(user.getUsername())) &&
                     userLoginDTO.getPassword().equals(user.getPassword())) {
-                if (user.getPassword().equals("default")) {
+                if (user.getPassword().equals(String.valueOf(user.getDateOfBirth()))) {
                     loginResult.setUser(convertToSignupDTO(user));
-                    loginResult.setStatus(LoginStatus.RESET_PASSWORD_REQUIRED);
+                    loginResult.setStatus("reset");
                     return loginResult;
                 } else {
                     loginResult.setUser(convertToSignupDTO(user));
-                    loginResult.setStatus(LoginStatus.SUCCESSFUL_LOGIN);
+                    loginResult.setStatus("success");
                     return loginResult;
                 }
             }
@@ -69,7 +69,7 @@ public class LoginService {
 
         // Set invalid credentials status
         loginResult.setUser(null);
-        loginResult.setStatus(LoginStatus.INVALID_CREDENTIALS);
+        loginResult.setStatus("invalid");
         return loginResult;
     }
 
@@ -119,18 +119,25 @@ public class LoginService {
     /**
      * Updates user password.
      */
-    public String updatePassword(SignupDTO signupUser, PasswordResetDTO passwordResetDTO) {
-        Optional<UserModel> getUser = userRepository.findByUsername(signupUser.getUsername());
-        UserModel user = getUser.get();
-        if (user.getUsername().equals(passwordResetDTO.getUsername())) {
-            if (passwordResetDTO.getPassword().equals(passwordResetDTO.getConfirmedPassword())) {
-                user.setPassword(passwordResetDTO.getPassword());
-                userRepository.save(user);
-                return "resetSuccess";
+    public String updatePassword(String actualName, PasswordResetDTO passwordResetDTO) {
+        Optional<UserModel> getUser = userRepository.findByUsername(actualName);
+
+        try {
+            UserModel user = getUser.get();
+            if (user.getUsername().equals(passwordResetDTO.getUsername())) {
+                if (passwordResetDTO.getPassword().equals(passwordResetDTO.getConfirmedPassword())) {
+                    user.setPassword(passwordResetDTO.getPassword());
+                    userRepository.save(user);
+                    return "resetSuccess";
+                } else {
+                    return "unmatchedPassword";
+                }
             } else {
-                return "unmatchedPassword";
+                return "missingUser";
             }
-        } else {
+        }
+        catch (Exception e)
+        {
             return "missingUser";
         }
     }

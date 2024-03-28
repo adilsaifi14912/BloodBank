@@ -1,8 +1,6 @@
 package com.kashif.entity;
-
-import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
-
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -29,6 +27,9 @@ public class UserRegistration {
     private boolean newUser;
     private boolean blockedStatus;
     private String bloodGroup;
+
+    // ----One More Fields Added ---- 14/Mar/2024
+    private Long commission;
 
     public String getBloodGroup() {
         return bloodGroup;
@@ -62,8 +63,8 @@ public class UserRegistration {
         this.id = id;
     }
 
-    public String getCreationTime() {
-        return creationTime.toString();
+    public Date getCreationTime() {
+        return creationTime;
     }
 
     public void setCreationTime(Date creationTime) {
@@ -86,8 +87,8 @@ public class UserRegistration {
         this.modifyBy = modifyBy;
     }
 
-    public String getUpdatedTime() {
-        return updatedTime.toString();
+    public Date getUpdatedTime() {
+        return updatedTime;
     }
 
     public void setUpdatedTime(Date updatedTime) {
@@ -119,8 +120,8 @@ public class UserRegistration {
         this.password = password;
     }
 
-    public String getDob() {
-        return dob.toString();
+    public LocalDate getDob() {
+        return dob;
     }
 
     public void setDob(LocalDate dob) {
@@ -151,5 +152,11 @@ public class UserRegistration {
         this.address = address;
     }
 
+    public Long getCommission() {
+        return commission;
+    }
 
+    public void setCommission(Long commission) {
+        this.commission = commission;
+    }
 }

@@ -1,18 +1,17 @@
 package com.insightgeeks.bloodbank.entities;
 
-import jakarta.persistence.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Component
-@Scope("prototype")
 public class UserModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
    private int id;
 
     @Column
@@ -42,19 +41,28 @@ public class UserModel {
     @Column
     private String createdBy;
 
-    @Column
-    private int parentId;
 
     @Column
     private String blockStatus;
+
+    @Column
+    private float commision;
+
+    @Column
+    private int coins;
+
+    @Column
+    private LocalDate nextRequestEligibleDate;
+
 
 
     public UserModel() {
     }
 
     public UserModel(int id, String username, String role, String password, LocalDate dateOfBirth,
-                     long phoneNumber, String adddress, String bloodGroup, LocalDate createdOn, String createdBy,
-                     int parentId, String blockStatus) {
+                     long phoneNumber, String adddress, String bloodGroup, LocalDate createdOn,
+                     String createdBy, String blockStatus, float commision, int coins,
+                     LocalDate nextRequestEligibleDate) {
         this.id = id;
         this.username = username;
         this.role = role;
@@ -65,8 +73,10 @@ public class UserModel {
         this.bloodGroup = bloodGroup;
         this.createdOn = createdOn;
         this.createdBy = createdBy;
-        this.parentId = parentId;
         this.blockStatus = blockStatus;
+        this.commision = commision;
+        this.coins = coins;
+        this.nextRequestEligibleDate = nextRequestEligibleDate;
     }
 
     public int getId() {
@@ -148,13 +158,6 @@ public class UserModel {
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
-    public int getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
-    }
 
     public String getBlockStatus() {
         return blockStatus;
@@ -162,6 +165,30 @@ public class UserModel {
 
     public void setBlockStatus(String blockStatus) {
         this.blockStatus = blockStatus;
+    }
+
+    public float getCommision() {
+        return commision;
+    }
+
+    public void setCommision(float commision) {
+        this.commision = commision;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public LocalDate getNextRequestEligibleDate() {
+        return nextRequestEligibleDate;
+    }
+
+    public void setNextRequestEligibleDate(LocalDate nextRequestEligibleDate) {
+        this.nextRequestEligibleDate = nextRequestEligibleDate;
     }
 
     public String toString()

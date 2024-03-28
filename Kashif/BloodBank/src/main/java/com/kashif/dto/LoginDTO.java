@@ -9,7 +9,7 @@ public class LoginDTO {
     }
 
     public void setUsername(String username) {
-        this.username = username.toLowerCase().strip();
+        this.username = username.toLowerCase();
     }
 
     public String getPassword() {
@@ -17,6 +17,6 @@ public class LoginDTO {
     }
 
     public void setPassword(String password) {
-        this.password = password.strip();
+        this.password = password;
     }
 }

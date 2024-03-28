@@ -107,13 +107,6 @@
                 <input type="text" id="username" name="username" required>
             </div>
 
-
-            <div class="form-group">
-                <label for="parentId">Parent ID:</label>
-                <input type="number" id="parentId" name="parentId">
-            </div>
-
-
             <div class="form-group">
                 <label for="password">Set-Password:</label>
                 <input type="password" id="setPassword" name="password" required>

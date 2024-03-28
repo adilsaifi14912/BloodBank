@@ -1,7 +1,7 @@
 package in.sp.main.service;
 
-import in.sp.main.beans.UserModel;
 import in.sp.main.dao.UserRepository;
+import in.sp.main.entities.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +20,24 @@ public class DatabaseSetupService {
     public void setupDatabase()
     {
         // Create a default admin user
-        user.setName("admin1");
+        user.setUsername("admin1");
         user.setGender("male");
-        user.setEmail("admin123@gmail.com");
+        user.setUserEmail("admin123@gmail.com");
         user.setRole("admin");
         user.setPassword("sample");
         user.setDateOfBirth(LocalDate.of(1990, 03, 06));
         user.setPhoneNumber(8899287645l);
-        user.setAddress("Pinnacle Bussiness Park, InsightGeeksSolutions Pvt.Ltd");
+        user.setCity("Pinnacle Bussiness Park, InsightGeeksSolutions Pvt.Ltd");
+        user.setBloodGroup("B+");
+        user.setCreatedOn(LocalDate.now());
+        user.setCreatedBy("self");
+        user.setBlockStatus("unblocked");
+        user.setUserEmail("admin990@gmail.com");
+        user.setGender("male");
+        user.setCommission(0f);
 
         // Check if an admin user already exists in the database
-        Optional<UserModel> usr= userRepository.findById(1);
-
+        Optional<UserModel> usr= userRepository.findByRole("admin");
         // If no admin user exists, save the admin user to the database
         if(usr.isEmpty())
         {

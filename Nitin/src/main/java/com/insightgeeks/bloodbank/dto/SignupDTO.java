@@ -1,19 +1,18 @@
 package com.insightgeeks.bloodbank.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Component
+@Scope("prototype")
 public class SignupDTO {
 
     @NotEmpty(message = "username cannot be empty or null")
     private String username;
-
-    @NotNull(message = "parentId cannot be empty or null")
-    private  int parentId;
 
     @NotEmpty(message = "user entered password cannot be empty or null")
     private String password;
@@ -30,30 +29,42 @@ public class SignupDTO {
     @NotEmpty(message = "user address cannot be empty or null")
     private String address;
 
-    @NotEmpty(message = "please choose a bloodGroup")
+    @NotEmpty
     private String bloodGroup;
+
+    @NotNull
+    private float commision;
 
     private int id;
     private String role;
     private LocalDate createdOn;
     private String createdBy;
     private String blockStatus;
-
-
+    private int coins;
+    private LocalDate nextRequestEligibleDate;
 
     public SignupDTO() {
     }
 
-    public SignupDTO(String username, int parentId, String password, String confirmPassword,
-                     String dateOfBirth, long phoneNumber, String address, String bloodGroup){
+    public SignupDTO(String username, String password, String confirmPassword, String dateOfBirth,
+                     long phoneNumber, String address, String bloodGroup, float commision, int id,
+                     String role, LocalDate createdOn, String createdBy, String blockStatus, int coins,
+                     LocalDate nextRequestEligibleDate) {
         this.username = username;
-        this.parentId = parentId;
         this.password = password;
         this.confirmPassword = confirmPassword;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.bloodGroup = bloodGroup;
+        this.commision = commision;
+        this.id = id;
+        this.role = role;
+        this.createdOn = createdOn;
+        this.createdBy = createdBy;
+        this.blockStatus = blockStatus;
+        this.coins = coins;
+        this.nextRequestEligibleDate = nextRequestEligibleDate;
     }
 
     public String getUsername() {
@@ -62,14 +73,6 @@ public class SignupDTO {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public int getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
     }
 
     public String getPassword() {
@@ -149,5 +152,38 @@ public class SignupDTO {
 
     public void setBlockStatus(String blockStatus) {
         this.blockStatus = blockStatus;
+    }
+
+    public float getCommision() {
+        return commision;
+    }
+
+    public void setCommision(float commision) {
+        this.commision = commision;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public int getCoins() { return coins; }
+
+    public void setCoins(int coins) { this.coins = coins; }
+
+    public LocalDate getNextRequestEligibleDate() {
+        return nextRequestEligibleDate;
+    }
+
+    public void setNextRequestEligibleDate(LocalDate nextRequestEligibleDate) {
+        this.nextRequestEligibleDate = nextRequestEligibleDate;
+    }
+
+    public String toString()
+    {
+        return getUsername();
     }
 }
