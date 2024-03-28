@@ -79,11 +79,15 @@ public class BloodRequestsService {
         UserRequestModel model = userRequestRepository.getById(Long.valueOf(reqId));
         String checkForAvailableUnit = bloodStockService.setBloodStockRepository(model);
         if (checkForAvailableUnit.equalsIgnoreCase("ok")) {
-            model.setStatus(status);
-            userRequestRepository.save(model);
+
             if (model.getType().equalsIgnoreCase("donar")) {
                 bloodReportService.coinUpdate(Long.valueOf(reqId));  //for updating coin value
+                if (!userRequestService.isEligibleForDonation(model.getUser())){
+                    return "donar request is not accepted";
+                }
             }
+            model.setStatus(status);
+            userRequestRepository.save(model);
             return "status updated";
         } else {
             return checkForAvailableUnit;
