@@ -29,7 +29,7 @@ public interface UserRepo extends CrudRepository<UserRegistration, Integer> {
 
 
 
-    boolean existsByUsername(String username);
+
     boolean existsByRole(String role);
     List<UserRegistration> findAll();
 

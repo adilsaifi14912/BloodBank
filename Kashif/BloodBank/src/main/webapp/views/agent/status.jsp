@@ -4,14 +4,17 @@
     <aside class="sidebar">
         <ul>
             <li><a href="/dashboard">Dashboard</a></li>
-            <li><a href="/dashboard/donate-blood">Donate Blood</a></li>
-            <li><a href="/dashboard/receive-blood">Receive Blood</a></li>
+            <li><a href="/dashboard/enduser-account-creation">Create User</a></li>
+            <li><a href="/dashboard/enduser-lists">EndUsers List</a></li>
             <li><a class="active" href="/dashboard/status">Status</a></li>
+            <li><a href="/dashboard/blood-report">Blood Report</a></li>
+            <li><a href="/dashboard/coins-value">Coins Value</a></li>
+            <li><a href="/dashboard/coins-report">Coins Report</a></li>
         </ul>
     </aside>
     <div class="main-content">
         <div class="blood-group-info">
-            <p style="margin: 0;">Blood Group:<strong> ${data.bloodGroup} </strong></p>
+            <p style="margin: 0;"><strong> Blood Requested Status of EndUsers </strong></p>
         </div>
         <br>
         <form action="/dashboard/status" method="post" style="display: inline-block; margin-right: 20px;">
@@ -19,11 +22,14 @@
             <!-- Filtering options -->
             <select id="filterOption" name="filterOption">
                 <option value="select">Select Options</option>
+                <option value="byUsername">By Username</option>
                 <option value="createdBetween">Created Between</option>
                 <option value="byStatus">By Status</option> <!-- New option for status -->
             </select>
             
-         
+            <!-- Username input -->
+            <input id="usernameInput" name="username" placeholder="Enter Username" style="display: none;"
+                   type="text">
             
             <!-- Start date input -->
             <input id="startDate" name="startDate" placeholder="Start Date" style="display: none;" type="date">
@@ -47,6 +53,8 @@
             <thead class="table-header">
                 <tr>
                     <th>Serial No.</th>
+                    <th>Username</th>
+                    <th>Blood Group</th>
                     <th>Donor/Receiver</th>
                     <th>Unit</th>
                     <th>Coin</th>
@@ -59,6 +67,8 @@
                 <c:forEach items="${bloodRequests}" var="request" varStatus="loop">
                     <tr>
                         <td>${loop.index + 1}</td>
+                        <td>${request.username}</td>
+                        <td>${request.bloodGroup}</td>
                         <td>${request.type.toUpperCase()}</td>
                         <td>${request.quantity}</td>
                         <td>${request.coins}</td>

@@ -5,11 +5,15 @@
         <ul>
             <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="/dashboard/agent-account-creation" class="active">Register Agent</a></li>
-            <li><a href="/dashboard/enduser-lists">EndUsers List</a></li>
+            <li><a href="/dashboard/alluser-lists">User Lists</a></li>
             <li><a href="/dashboard/blood-request">Requests</a></li>
+            <li><a  href="/dashboard/blood-report">Blood Report</a></li>
+            <li><a  href="/dashboard/available-stock" >Available Stock</a></li>
+            <li><a href="/dashboard/coins-report" >Coins Report</a></li>
 
         </ul>
     </aside>
+    
 
     <main class="content">
 
@@ -38,7 +42,7 @@
                 </div>
 
                 <div class="form-row">
-                    <label for="commission">Commission</label>
+                    <label for="commission">Commission in %</label>
                     <input type="number" id="commission" name="commission" required>
                 </div>
 

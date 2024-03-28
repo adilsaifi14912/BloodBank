@@ -1,15 +1,20 @@
 package com.kashif.service;
+
 import com.kashif.dto.RegistrationDTO;
 import com.kashif.entity.UserRegistration;
 import com.kashif.repository.UserRepo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class UserRegistrationService {
+    @Autowired
+    ModelMapper modelMapper;
     @Autowired
     private UserRegistration userRegistration;
 
@@ -19,7 +24,7 @@ public class UserRegistrationService {
 
     public RegistrationDTO registerUser(RegistrationDTO registrationDTO) {
 
-        if (registrationDTO.getUsername() != null && !registrationDTO.getUsername().isEmpty() && !userRepo.existsByUsername(registrationDTO.getUsername())) {
+        if (registrationDTO.getUsername() != null && !registrationDTO.getUsername().isEmpty() && !existsByUsername(registrationDTO.getUsername())) {
             userRegistration.setUsername(registrationDTO.getUsername());
         } else {
 
@@ -56,7 +61,7 @@ public class UserRegistrationService {
         if (registrationDTO.getBloodGroup() != null && !registrationDTO.getBloodGroup().isEmpty()) {
             userRegistration.setBloodGroup(registrationDTO.getBloodGroup());
         } else {
-            throw new RuntimeException("Blood Group Can't be null");
+            throw new RuntimeException("Blood.java Group Can't be null");
         }
 
         if (registrationDTO.getRole() == null) {
@@ -69,16 +74,19 @@ public class UserRegistrationService {
         } else {
             userRegistration.setCreatedBy(registrationDTO.getCreatedBy());
         }
-        if(registrationDTO.getCommission() == null){
-            userRegistration.setCommission(-1L);
+        if (registrationDTO.getCommission() == null) {
+            userRegistration.setCommission(0L);
         }
         userRegistration.setCommission(registrationDTO.getCommission());
         userRegistration.setId(0);
         userRegistration.setCreationTime(new Date());
 
         //--------------- Extra fields Default data -------
-        if((userRegistration.getRole().equalsIgnoreCase("enduser") && !userRegistration.getCreatedBy().equalsIgnoreCase("self")) || (userRegistration.getRole().equalsIgnoreCase("enduser") && userRegistration.getCreatedBy().equalsIgnoreCase("agent")))
-            userRegistration.setNewUser(true);
+        if ((!userRegistration.getRole().equalsIgnoreCase("admin") &&
+                userRegistration.getRole().equalsIgnoreCase("EndUser") &&
+                userRegistration.getCreatedBy().equalsIgnoreCase("Self")))
+            userRegistration.setNewUser(false);
+        else userRegistration.setNewUser(true);
         userRegistration.setBlockedStatus(false);
         userRegistration.setUpdatedTime(new Date());
         userRegistration.setModifyBy("NA");
@@ -86,53 +94,25 @@ public class UserRegistrationService {
         return registrationDTO;
     }
 
-    public UserRegistration convertRegistrationDTOtoEntity(RegistrationDTO dto){
-        userRegistration.setPassword(dto.getPassword());
-        userRegistration.setEmail(dto.getEmail());
-        userRegistration.setRole(dto.getRole());
-        userRegistration.setBloodGroup(dto.getBloodGroup());
-        userRegistration.setCreationTime(dto.getCreationTime());
-        userRegistration.setDob(LocalDate.parse(dto.getDob()));
-        userRegistration.setCommission(dto.getCommission());
-        userRegistration.setUsername(dto.getUsername());
-        userRegistration.setAddress(dto.getAddress());
-        userRegistration.setCreatedBy(dto.getCreatedBy());
-        userRegistration.setModifyBy(dto.getModifyBy());
-        userRegistration.setName(dto.getName());
-        userRegistration.setUpdatedTime(dto.getUpdatedTime());
-        userRegistration.setNewUser(dto.isNewUser());
-        userRegistration.setBlockedStatus(dto.isBlockedStatus());
-        return userRegistration;
-    }
-    private RegistrationDTO convertEntityToDto(UserRegistration userRegistration){
-        RegistrationDTO registrationDTO = new RegistrationDTO();
-        registrationDTO.setPassword(userRegistration.getPassword());
-        registrationDTO.setEmail(userRegistration.getEmail());
-        registrationDTO.setRole(userRegistration.getRole());
-        registrationDTO.setBloodGroup(userRegistration.getBloodGroup());
-        registrationDTO.setCreationTime(userRegistration.getCreationTime());
-        registrationDTO.setDob(userRegistration.getDob().toString());
-        registrationDTO.setCommission(userRegistration.getCommission());
-        registrationDTO.setUsername(userRegistration.getUsername());
-        registrationDTO.setAddress(userRegistration.getAddress());
-        registrationDTO.setCreatedBy(userRegistration.getCreatedBy());
-        registrationDTO.setModifyBy(userRegistration.getModifyBy());
-        registrationDTO.setName(userRegistration.getName());
-        registrationDTO.setUpdatedTime(userRegistration.getUpdatedTime());
-        registrationDTO.setNewUser(userRegistration.isNewUser());
-        registrationDTO.setBlockedStatus(userRegistration.isBlockedStatus());
-        return registrationDTO;
+    public UserRegistration getUserRegistration(RegistrationDTO dto) {
+        return userRepo.findByUsername(dto.getUsername()).get();
     }
 
-    public List<RegistrationDTO> getAllUsers(){
-        return userRepo.findAll().stream().map(this::convertEntityToDto).collect(Collectors.toList());
+    private RegistrationDTO convertEntityToDto(UserRegistration userRegistration) {
+        return this.modelMapper.map(userRegistration, RegistrationDTO.class);
+
     }
+
+    public List<RegistrationDTO> getAllUsers() {
+        return userRepo.findAll().stream().filter(user -> !user.getUsername().equalsIgnoreCase("admin")).map(this::convertEntityToDto).collect(Collectors.toList());
+    }
+
     public boolean existsByUsername(String username) {
-        return userRepo.existsByUsername(username);
+        return getUserByUsername(username).isPresent();
     }
 
     public boolean getBlockedStatusByUsername(String username) {
-        return userRepo.findByUsername(username).get().isBlockedStatus();
+        return getUserByUsername(username).isPresent() && getUserByUsername(username).get().isBlockedStatus();
     }
 
     public void updateBlockedStatusByUsername(boolean blockedStatus, String username) {
@@ -140,8 +120,9 @@ public class UserRegistrationService {
     }
 
     public String getPasswordByUsername(String username) {
-        return userRepo.findByUsername(username).get().getPassword();
+        return getUserByUsername(username).isPresent() ? getUserByUsername(username).get().getPassword() : "";
     }
+
 
     public void updatePasswordByUsername(String newPassword, String username) {
         userRepo.updatePasswordByUsername(newPassword, username);
@@ -151,24 +132,15 @@ public class UserRegistrationService {
         userRepo.updateNewUserByUsername(newUserStatus, username);
     }
 
-    public Optional<RegistrationDTO> findByUsername(String username) {
-        Optional<UserRegistration> chk = userRepo.findByUsername(username);
-        if(chk.isPresent()){
-            RegistrationDTO registrationDTO = convertEntityToDto(chk.get());
+    public Optional<RegistrationDTO> getUserByUsername(String username) {
+        Optional<UserRegistration> user = userRepo.findByUsername(username);
+        if (user.isPresent()) {
+            RegistrationDTO registrationDTO = convertEntityToDto(user.get());
             return Optional.of(registrationDTO);
         }
 
         return Optional.empty();
     }
-
-    public List<RegistrationDTO> findAllEndUsers() {
-        List<RegistrationDTO> allUserList = getAllUsers();
-        return allUserList.stream()
-                .filter(user -> user.getRole().equalsIgnoreCase("enduser"))
-                .collect(Collectors.toList());
-    }
-
-
 
 
 }

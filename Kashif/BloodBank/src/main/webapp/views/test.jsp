@@ -1,94 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Request Status Table</title>
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    th, td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-    .accepted {
-        background-color: #c9f9c9;
-    }
-    .rejected {
-        background-color: #ffb3b3;
-    }
-    .pending {
-        background-color: #ffff99;
-    }
-    .blood-group-info {
-        display: inline-block;
-        padding: 10px;
-        text-align: center;
-        background-color: #f5f5f5;
-        color: #333;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-    .accepted-info {
-        background-color: #c9f9c9;
-        color: #228B22;
-    }
-    /* Styling thead */
-    .table-header {
-        background-color: #007bff;
-        color: white;
-    }
-    .table-header th {
-        padding: 10px;
-        font-weight: bold;
-        text-transform: uppercase;
-        border-bottom: 2px solid #ddd; /* increase border size */
-    }
-</style>
-</head>
-<body>
-
-<div class="blood-group-info">
-    <p style="margin: 0;">Blood Group: A+</p>
-</div>
-
-<table>
-  <thead class="table-header">
-    <tr>
-      <th>Serial No.</th>
-      <th>Request Date</th>
-      <th>Donor/Receiver</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>2024-03-18</td>
-      <td>Donor</td>
-      <td class="accepted">Accepted</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>2024-03-17</td>
-      <td>Receiver</td>
-      <td class="rejected">Rejected</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>2024-03-16</td>
-      <td>Donor</td>
-      <td class="pending">Pending</td>
-    </tr>
-    <!-- Add more rows as needed -->
-  </tbody>
-</table>
-
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blood Request Rejection Details</title>
+        <style>
+            /* Styling for the popup */
+            .enduser-status-popup {
+              display: none;
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background-color: #ffffff;
+              padding: 20px;
+              border: 2px solid #3498db;
+              border-radius: 10px;
+              box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+              z-index: 9999;
+              animation: fadeIn 0.5s ease-in-out;
+              max-width: 400px;
+              width: 80%;
+              text-align: center;
+            }
+          
+            /* Styling for the info icon */
+            .info-icon.enduser-status {
+              cursor: pointer;
+              color: #3498db;
+              font-size: 24px;
+            }
+          
+            /* Styling for the heading */
+            .popup-heading {
+              font-size: 20px;
+              color: #333333;
+              margin-bottom: 15px;
+            }
+          
+            /* Styling for the reason text */
+            .popup-text {
+              font-size: 16px;
+              color: #666666;
+              margin-bottom: 20px;
+            }
+          
+            /* Styling for the close button */
+            .popup-close-button {
+              background-color: #3498db;
+              color: #ffffff;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 16px;
+              transition: background-color 0.3s ease;
+            }
+          
+            .popup-close-button:hover {
+              background-color: #2980b9;
+            }
+          
+            /* Keyframes for fadeIn animation */
+            @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+        </style>
+    </head>
+    <body>
+        
+        <!-- Info icon -->
+        <span class="info-icon enduser-status" onclick="showRejectionDetails('Your blood request has been rejected due to unavailability of requested blood type.')">&#8505;</span>
+        
+        <!-- Popup -->
+        <div id="enduser-status-popup" class="enduser-status-popup enduser-status">
+            <div class="popup-heading">Rejection Details</div>
+            <div class="popup-text" id="popup-reason"></div>
+            <button class="popup-close-button" onclick="closePopup()">Close</button>
+        </div>
+        
+        <script>
+            // Function to open the popup
+            function openPopup() {
+              document.getElementById("enduser-status-popup").style.display = "block";
+            }
+            
+            // Function to close the popup
+            function closePopup() {
+              document.getElementById("enduser-status-popup").style.display = "none";
+            }
+            
+            // Function to show rejection details
+            function showRejectionDetails(reason) {
+              // Set the rejection details
+              document.getElementById("popup-reason").innerText = reason;
+            
+              // Open the popup
+              openPopup();
+            }
+        </script>
+    
+    </body>
 </html>

@@ -7,7 +7,10 @@
             <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="/dashboard/enduser-account-creation">Create User</a></li>
             <li><a href="/dashboard/enduser-lists" class="active">EndUsers List</a></li>
-
+            <li><a href="/dashboard/status" >Status</a></li>
+            <li><a href="/dashboard/blood-report">Blood Report</a></li>
+            <li><a href="/dashboard/coins-value">Coins Value</a></li>
+            <li><a href="/dashboard/coins-report" >Coins Report</a></li>
         </ul>
     </aside>
 
@@ -29,7 +32,7 @@
             <!-- Filtering options -->
                 <select id="filterOption" name="filterOption">
                     <option value="select" >Select Options</option>
-                    <option value="notLoggedIn">Not Logged In Users</option>
+                    <option value="notLoggedInUser">Not Logged In Users</option>
                     <option value="byUsername">By Username</option>
                     <option value="createdBetween">Created Between</option>
                 </select>
