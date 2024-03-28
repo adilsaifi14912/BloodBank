@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import BloodBank.Entity.UserModel;
 import BloodBank.Entity.UserSignUpDetailsDTO;
-
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 public class UserSignUpService {
@@ -16,18 +13,23 @@ public class UserSignUpService {
     @Autowired
     private UserRepository userRepository;
 
-    public void addUser(UserSignUpDetailsDTO userSignUpDetailsDTO) {
+    public void addUser(UserSignUpDetailsDTO userSignUpDetailsDTO,String role,String createdBy) {
         UserModel user = new UserModel();
         user.setUsername(userSignUpDetailsDTO.getUsername());
         user.setDob(userSignUpDetailsDTO.getDob());
         user.setContactNumber(userSignUpDetailsDTO.getContactNumber());
         user.setAddress(userSignUpDetailsDTO.getAddress());
-        user.setPassword(userSignUpDetailsDTO.getPassword());
-        user.setCreatedOn(Date.valueOf(LocalDate.now()));
+        if(userSignUpDetailsDTO.getPassword()==null||userSignUpDetailsDTO.getPassword().isEmpty())
+            user.setPassword(String.valueOf(userSignUpDetailsDTO.getDob()));
+        else
+            user.setPassword((userSignUpDetailsDTO.getPassword()));
+        user.setCreatedOn(LocalDateTime.now());
         user.setBloodGroup(userSignUpDetailsDTO.getBloodGroup());
-        user.setRole("EU");
-        user.setCreatedby("AUTO");
-        user.setFirstTimeLogin(true);
+        user.setRole(role);
+        user.setCreatedby(createdBy);
+        user.setFirstTimeLogin(!createdBy.equals("AUTO"));
+        user.setCoin(0);
         userRepository.save(user);
     }
+
 }

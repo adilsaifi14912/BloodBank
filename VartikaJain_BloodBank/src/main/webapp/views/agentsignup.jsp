@@ -61,7 +61,7 @@
      <div class="signup-container">
          <h2>Sign Up</h2>
          <!-- Form for submitting signup data -->
-         <form action="userSignupDetails" method="post">
+         <form action="agentSignupDetails" method="post">
              <label for="username">Username:</label><br>
              <input type="text" id="username" name="username" required><br>
              <label for="bloodgroup">BloodGroup:</label><br>
@@ -72,8 +72,6 @@
              <input type="tel" id="contactNumber" name="contactNumber" pattern="[0-9]*" required><br>
              <label for="address">Address:</label><br>
              <textarea id="address" name="address" rows="4" cols="50" required></textarea><br>
-             <label for="password">Password:</label><br>
-             <input type="password" id="password" name="password"required><br><br>
              <input type="submit" value="Submit">
          </form>
      </div>
