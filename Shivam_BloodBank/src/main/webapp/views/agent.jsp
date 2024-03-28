@@ -109,14 +109,14 @@
 </head>
 <body>
     <div class="container">
-        <h2>Welcome to Admin Dashboard!!</h2>
+        <h2>Welcome to ${dto.username} Dashboard!!</h2>
+        <p>Coin Value: ${dto.coins}<p>
         <div class="button-container">
-            <a href="/createAgent" class="add-agent-button">Create Agent</a>
+            <a href="createAgent" class="add-agent-button">Create EndUser</a>
             <a href="/userBloodRequest" class="add-agent-button">User Request</a>
-            <a href="/bloodStock" class="add-agent-button">BloodStock</a>
-            <a href="/report" class="add-agent-button">Requests Report</a>
-            <a href="/coinReport" class="add-agent-button">Coin Report</a><br><br><br>
-            <a href="/logout" class="add-agent-button">Log Out</a>
+            <a href="/coinReport" class="add-agent-button">Coin Report </a>
+            <a href="/report" class="add-agent-button">ReportOfRequests </a>
+            <a href="logout" class="add-agent-button">Log Out</a>
         </div><br><br>
 
          <div class="action-buttons">
@@ -135,7 +135,6 @@
                         <select id="filterBy" name="filterBy">
                             <option value="select" >FilterBy</option>
                             <option value="notLoggedIn">Not Logged In Users</option>
-                            <option value="byAgent">By Agent</option>
                             <option value="byUsername">By Username</option>
                             <option value="createdBetween">By Created Between</option>
                         </select>
@@ -144,7 +143,8 @@
                         <input type="date" id="endDate" name="endDate" placeholder="End Date" style="display: none;">
                         <button type="submit">Filter</button>
                     </form>
-                </div><br>
+
+                </div>
                 <div class="enduser-list">
                     <table>
                         <thead>
@@ -152,7 +152,7 @@
                                 <th>Serial No.</th>
                                 <th>Name</th>
                                 <th>Username</th>
-                                <th>Created Time</th>
+                                <th>Creation Time</th>
                                 <th>CreatedBy</th>
                                 <th>DOB</th>
                                 <th>Blood Group</th>

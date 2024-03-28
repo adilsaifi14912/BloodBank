@@ -41,6 +41,7 @@
         input[type="password"],
         input[type="date"],
         input[type="email"],
+        input[type="commision"],
         input[type="submit"] ,select{
             width: 100%;
             padding: 10px;
@@ -59,15 +60,6 @@
             border: none;
             cursor: pointer;
         }
-        button {
-            background-color: #3498db;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
 
         input[type="submit"]:hover {
             background-color: #45a049;
@@ -77,11 +69,10 @@
 </head>
 <body>
 <h1>Welcome to Blood Bank</h1>
-
     <div class="container">
 
         <h2>User Signup</h2>
-        <form action="register" method="post" id="signupForm">
+        <form action="register" method="post" id="crateAgent">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
 
@@ -91,8 +82,19 @@
            <label for="dob">DOB:</label>
            <input type="date" id="dob" name="dob" max ="2024-03-01" required>
 
-            <label for="address">Address:</label>
-            <input type="text" id="address" name="address"  required>
+           <label for="address">Address:</label>
+           <input type="text" id="address" name="address"  required>
+
+           <c:choose>
+               <c:when test="${role eq 'agent'}">
+                   <input type="hidden" id="commision" name="commision" value="0">
+               </c:when>
+               <c:otherwise>
+                   <label for="commission">Commission:</label>
+                   <input type="text" id="commision" name="commision" required>
+               </c:otherwise>
+           </c:choose>
+
 
             <label for="bloodGroup">Blood Group:</label>
                             <select id="bloodGroup" name="bloodGroup">
@@ -107,16 +109,8 @@
                                 <option value="O-">O-</option>
                             </select>
 
-             <c:choose>
-                 <c:when test="${role eq 'agent'}">
-                    <input type="hidden" id="password" name="password" value="abc">
 
-                 </c:when>
-                 <c:otherwise>
-                     <label for="password">Password:</label>
-                     <input type="password" id="password" name="password" required>
-                 </c:otherwise>
-             </c:choose>
+            <input type="hidden" id="password" name="password" value="abc">
 
             <input type="submit" value="Sign Up">
             <div th:if="${message}">
@@ -126,6 +120,6 @@
             </div>
         </form>
     </div>
-
+    </script>
 </body>
 </html>
