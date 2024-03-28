@@ -1,5 +1,5 @@
-<%@ page isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -68,41 +68,71 @@
             background-color: #2980b9;
         }
 
+        .request-button {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .request-button a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #fff;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .request-button a:hover {
+            background-color: #2ecc71;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-            <div class="back-button">
-            <h2>${dto.role} Logged In</h2>
-               <c:if test="${dto.role eq 'AGENT'}">
-                <a href="signup">Create EndUser</a>
-                </c:if>
-             </div>
+
+           <c:if test="${donateResult !=null}">
+           <p> ${donateResult}  </p>
+           </c:if>
+
+        <div class="request-button">
+            <a href="/donorreceiverrequest">Donate/Accept Blood Request</a>
+        </div>
+        <div class="request-button">
+            <a href="/dashboard/bloodrequests">Request Status</a>
+        </div>
+        <h3>Total Coins =${coinValue}</h3>
+        <div class="back-button">
+            <h2>${name} End User Logged In</h2>
+
+        </div>
 
         <div class="user-details">
             <div>
                 <label>Name:</label>
-                <div>${dto.name}</div>
+                <div>${name}</div>
             </div>
             <div>
                 <label>Username:</label>
-                <div>${dto.userName}</div>
+                <div>${userId}</div>
             </div>
             <div>
                 <label>Created On:</label>
-                <div>${dto.createdOn}</div>
+                <div>${createdOn}</div>
             </div>
             <div>
                 <label>Created By:</label>
-                <div>${dto.createdBy}</div>
+                <div>${createdBy}</div>
             </div>
             <div>
                 <label>DOB:</label>
-                <div>${dto.dob}</div>
+                <div>${dob}</div>
             </div>
             <div>
                 <label>Blood Group:</label>
-                <div>${dto.bloodGroup}</div>
+                <div>${bloodGroup}</div>
             </div>
         </div>
 

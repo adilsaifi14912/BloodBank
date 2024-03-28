@@ -7,44 +7,33 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Entity
+@Table
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column
     @NotEmpty
     private String userName;
-    @Column
     @NotEmpty
     private String name;
-    @Column
     @NotNull
     private Date dob;
-    @Column
     @NotEmpty
     private String bloodGroup;
-    @Column
     @NotEmpty
     private String password;
-    @Column
     @NotNull
     private LocalDateTime createdOn;
-    @Column
     @NotNull
     private String createdBy;
-    @Column
     @NotEmpty
     private String role;
-    @Column
-    private boolean isFirstLogin = true;  // New field for tracking first login
-    @Column
+    private boolean isFirstLogin;  // New field for tracking first login
     private boolean locked = false;  // New field for tracking user account lock status
-    @Column
     private int loginAttempts = 0;  // New field for tracking login attempts
-    @Column
     private float commission;
-    @Column
     private String address;
+    private Integer coinValue=0;
 
     public String getUserName() {
         return userName;
@@ -86,8 +75,8 @@ public class UserModel {
         this.bloodGroup = bloodGroup;
     }
 
-    public void setCreatedOn() {
-        this.createdOn = LocalDateTime.now();
+    public void setCreatedOn(LocalDateTime localDateTime) {
+        this.createdOn = localDateTime;
     }
 
     public LocalDateTime getCreatedOn() {
@@ -107,6 +96,7 @@ public class UserModel {
     }
 
     public void setRole(String role) {
+
         this.role = role;
     }
 
@@ -148,5 +138,22 @@ public class UserModel {
 
     public void setAddress(String address) {
         this.address = address;
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getCoinValue() {
+        return coinValue;
+    }
+
+    public void setCoinValue(Integer coinValue) {
+        this.coinValue = coinValue;
     }
 }

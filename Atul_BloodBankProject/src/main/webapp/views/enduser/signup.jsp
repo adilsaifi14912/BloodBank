@@ -114,6 +114,8 @@
                     <input type="password" id="password" name="password" required>
                     </c:otherwise>
                     </c:choose>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
             <input type="submit" value="Sign Up">
         </form>
         <div th:if="${successMessage}" class="alert alert-success">
@@ -127,6 +129,7 @@
         <br/>
 
     </div>
+
 
 </body>
 </html>

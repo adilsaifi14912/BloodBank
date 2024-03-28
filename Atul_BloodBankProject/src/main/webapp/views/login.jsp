@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - BloodBank.in</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
                     font-family: Arial, sans-serif;
@@ -87,6 +89,11 @@
 
     <div class="container">
         <h2>Login</h2>
+        <c:if test="${not empty errorMsg}">
+        <div >
+           ${errorMsg}
+        </div>
+        </c:if>
         <form action="userLogin" method="post">
             <label for="userName">Username:</label>
             <input type="text" id="userName" name="userName" required>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Service
 public class AdminService {
@@ -19,14 +20,15 @@ public class AdminService {
         admin.setDob(Date.valueOf("2000-01-01"));
         admin.setBloodGroup("B+");
         admin.setPassword("admin123");
-        admin.setCreatedOn();
+        admin.setCreatedOn(LocalDateTime.now());
         admin.setCreatedBy("Self");
         admin.setRole("ADMIN");
+        admin.setAddress("GZB");
+        admin.setFirstLogin(false);  //for not gives the option of password updation at first login
         Iterable<UserModel> users = databaseRepository.findAll();
         if (!users.iterator().hasNext()) {
             databaseRepository.save(admin);
-        }
-        else {
+        } else {
             System.out.println("not empty");
         }
     }

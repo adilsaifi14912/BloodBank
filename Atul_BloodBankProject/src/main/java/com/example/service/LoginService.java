@@ -8,6 +8,7 @@ import com.example.repository.DatabaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class LoginService {
 
         //2nd approach use ModelMapper to convert model entity into Dto
         UserModel user = databaseRepository.findByUserName(userLoginDto.getUserName());
-        if (user != null && user.getPassword().equals(userLoginDto.getPassword())) {
+        if (user != null && userLoginDto.getPassword().equals(user.getPassword())) {
             // Successful login
             user.setLoginAttempts(0);
             databaseRepository.save(user);
@@ -64,6 +65,7 @@ public class LoginService {
         return modelMapper.map(userModel, UserRegisterDto.class);
     }
 
+
     private void handleFailedLogin(UserModel user) {
         if (user != null) {
             // Increment login attempts
@@ -77,11 +79,16 @@ public class LoginService {
         }
     }
 
-    public void updatePassword(UserLoginDto userLoginDto) {
+    public String updatePassword(UserLoginDto userLoginDto) {
+        if (userLoginDto.getUserName()==null){
+            return null;
+        }
         UserModel user = databaseRepository.findByUserName(userLoginDto.getUserName());
         user.setPassword(userLoginDto.getPassword());
         user.setFirstLogin(false);
         databaseRepository.save(user);
+        return "ok";
 
     }
+
 }

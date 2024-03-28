@@ -1,26 +1,23 @@
 package com.example;
 
 import com.example.service.AdminService;
-import com.example.service.AgentService;
+import com.example.service.BloodStockService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 @SpringBootApplication
 public class AtulBloodBankProjectApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(AtulBloodBankProjectApplication.class, args);
         AdminService adminService = context.getBean(AdminService.class);
-        AgentService agentService=context.getBean(AgentService.class);
+        BloodStockService bloodStockService=context.getBean(BloodStockService.class);
         adminService.setAdmin();  //for set admin at application starting
-        agentService.setAgent();  //for set agent at application starting
-//       context.registerShutdownHook();
+        bloodStockService.initializeBloodStock(); //for setting the stock table
 
     }
     @Bean

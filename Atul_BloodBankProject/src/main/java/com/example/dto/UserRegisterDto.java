@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 
 public class UserRegisterDto {
+    private Long id;
     @NotEmpty
     private String userName;
     @NotEmpty
@@ -24,8 +25,9 @@ public class UserRegisterDto {
     private boolean locked;
     private int loginAttempts;
     private float commission;
+    @NotEmpty
     private String address;
-
+    private Integer coinValue;
     public String getUserName() {
         return userName;
     }
@@ -127,6 +129,23 @@ public class UserRegisterDto {
     }
 
     public void setAddress(String address) {
+
         this.address = address;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getCoinValue() {
+        return coinValue;
+    }
+
+    public void setCoinValue(Integer coinValue) {
+        this.coinValue = coinValue;
     }
 }

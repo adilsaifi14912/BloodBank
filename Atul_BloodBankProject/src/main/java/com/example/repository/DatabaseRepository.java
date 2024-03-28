@@ -1,16 +1,17 @@
 package com.example.repository;
 
 import com.example.model.UserModel;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-public interface DatabaseRepository extends CrudRepository<UserModel,Long> {
-    //---2nd approach instead of loop
-//    @Query(value = "SELECT * FROM user_model WHERE user_Name = :username and password= :password", nativeQuery = true)
-//    UserModel checkForLogin(String username, String password);
-//
-//    @Query(value = "SELECT * FROM user_model WHERE user_Name = :username", nativeQuery = true)
-//    UserModel checkForSignup(String username);
+import java.util.List;
 
+public interface DatabaseRepository extends JpaRepository<UserModel, Long> {
     UserModel findByUserName(String userName);
+
+    @Query("SELECT u FROM UserModel u WHERE u.role = :role1 OR u.role = :role2")
+    List<UserModel> findAllByRoleIn(String role1, String role2);
+    List<UserModel> findAllByCreatedBy(String userName);
+
 }

@@ -2,9 +2,7 @@ package com.example.controller;
 
 import com.example.dto.UserLoginDto;
 import com.example.dto.UserRegisterDto;
-import com.example.service.AdminService;
-import com.example.service.LoginService;
-import com.example.service.SignupService;
+import com.example.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +14,10 @@ import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class BloodBankController {
@@ -23,49 +25,59 @@ public class BloodBankController {
     SignupService signupService;
     @Autowired
     LoginService loginService;
+    @Autowired
+    BloodReportService bloodReportService;
+    @Autowired
+    SortingAndFilterService sortingAndFilterService;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String showHome() {
         return "home";
     }
 
-    @RequestMapping("/signup")
-    public String signUp(HttpServletRequest request,Model model) {
-        model.addAttribute("role",request.getSession().getAttribute("role"));
-        return "signup";
+    @GetMapping("/signup")
+    public String signUp(HttpServletRequest request, Model model) {
+        String role = (String) request.getSession().getAttribute("role");
+        model.addAttribute("role", role);
+        if (role!=null&&role.equalsIgnoreCase("AGENT")) {
+            return "agent/endusersignup";
+        } else {
+            return "enduser/signup";
+        }
     }
 
-    @RequestMapping("/login")
-    public String login() {
+    @GetMapping("/login")
+    public String login(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if (session != null) {
+            session.invalidate();
+        }
         return "login";
     }
 
     @PostMapping(value = "/register")
     public String register(@ModelAttribute @Valid UserRegisterDto userRegisterDto, Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         String role = (String) request.getSession().getAttribute("role");
-        if (role!=null) {
+        if (role != null) {
             userRegisterDto.setPassword(String.valueOf(userRegisterDto.getDob()));
             userRegisterDto.setRole(role.equalsIgnoreCase("ADMIN") ? "AGENT" : "ENDUSER");
+            userRegisterDto.setFirstLogin(true);
             userRegisterDto.setCreatedBy((String) request.getSession().getAttribute("userId"));
 
-        }
-        else {
+        } else {   //only enduser come here
             userRegisterDto.setRole("ENDUSER");
             userRegisterDto.setCreatedBy("auto");
+            userRegisterDto.setFirstLogin(false);   //for not given the option of password updation at first login
         }
         if (signupService.addUser(userRegisterDto)) {
-            model.addAttribute("successMessage", "UserName already exits ,Please try again with different username");
+            redirectAttributes.addFlashAttribute("successMessage", "UserName already exits ,Please try again with different username");
+        } else {
+            redirectAttributes.addFlashAttribute("successMessage", "Successfully Registered!");
         }
-        else {
-            model.addAttribute("successMessage", "Successfully registered!");
-        }
-        redirectAttributes.addFlashAttribute("successMessage", "Successfully Registered!");
         String referer = request.getHeader("referer");
-        System.out.println(referer);
         if (referer != null) {
             return "redirect:" + referer;
-        }
-        else {
+        } else {
             return "redirect:/"; // Redirect to home page if referer is not available
         }
     }
@@ -78,28 +90,36 @@ public class BloodBankController {
 //            sucessfully login
             HttpSession session = request.getSession();   //session object created
             System.out.println("session created");
+            session.setAttribute("id", returnDto.getId());
             session.setAttribute("userId", returnDto.getUserName());
+            session.setAttribute("name", returnDto.getName());
             session.setAttribute("role", returnDto.getRole());
+            session.setAttribute("dob", returnDto.getDob());
+            session.setAttribute("createdBy", returnDto.getCreatedBy());
+            session.setAttribute("createdOn", returnDto.getCreatedOn());
+            session.setAttribute("bloodGroup", returnDto.getBloodGroup());
+            session.setAttribute("coinValue", returnDto.getCoinValue());
+            sortingAndFilterService.updateActiveUsers(returnDto.getUserName(), "add");
             if (returnDto.isFirstLogin()) {
                 // Redirect to the password update page
                 return "updatePasswordForm";
             }
             if (returnDto.isLocked()) {
                 return "loginAttemptsExceeded";
-            }
-            else {
+            } else {
                 //switch for matching corresponding role and display view according with role
                 switch (returnDto.getRole()) {
                     case "ADMIN":
-                        model.addAttribute("dto", returnDto);
                         model.addAttribute("signupUsers", loginService.fetchSignedupUsers());
-                        return "admin";
+                        model.addAttribute("allUsers", sortingAndFilterService.getAllUsersByRole());
+                        model.addAttribute("coinValue", returnDto.getCoinValue());
+                        return "admin/dashboard";
                     case "AGENT":
-                        model.addAttribute("dto", returnDto);
-                        return "user";
-                    case "EndUser":
-                        model.addAttribute("dto", returnDto);
-                        return "user";
+                        List<UserRegisterDto> listOfEndUsers = sortingAndFilterService.getAllUsersByUserName(returnDto.getUserName());
+                        model.addAttribute("allUsers", listOfEndUsers);
+                        return "agent/dashboard";
+                    case "ENDUSER":
+                        return "enduser/user";
                     default:
                         return "loginError";
 
@@ -112,27 +132,21 @@ public class BloodBankController {
 
     @PostMapping(value = "/processUpdatePassword")
     public String updatePassword(@ModelAttribute @Valid UserLoginDto userLoginDto) {
-        loginService.updatePassword(userLoginDto);
+        String status = loginService.updatePassword(userLoginDto);
+        if (status == null) {
+            return "redirect:/login";
+        }
         return "passwordUpdateSuccess";
     }
 
-    @RequestMapping(value = "/logout")
+    @GetMapping(value = "/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
+        sortingAndFilterService.updateActiveUsers((String) session.getAttribute("userId"), "remove");
         session.invalidate();
         System.out.println("session invalid");
         return "login";
     }
 
-    @RequestMapping(value = "/createagent")
-    public String createAgent() {
-        return "createagent";
-    }
-//    @PreDestroy
-//    void destroy(){
-//        HttpSession session = request.getSession();
-//        session.invalidate();
-//        System.out.println("session invalid by destroy");
-//    }
 
 }
