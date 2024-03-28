@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
-@Entity(name = "user_table")
+@Entity
 public class UserModel {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -35,6 +35,11 @@ public class UserModel {
     @Column
     @NotNull
     private String createdBy;
+    private boolean firstLogin;
+    @Column
+    private boolean locked;
+    @Column(name = "coin_value", columnDefinition = "bigint default 0")
+    private long coinValue;
     public void setCreatedOn(){this.createdOn=LocalDateTime.now();}
     public LocalDateTime getCreatedOn(){return createdOn;}
 
@@ -78,8 +83,33 @@ public class UserModel {
     public String getCreatedBy() {
         return createdBy;
     }
-    public void setCreatedBy() {
-        this.createdBy = "AUTO";
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public boolean isFirstLogin() {
+        return firstLogin;
+    }
+
+    public void setFirstLogin(boolean firstLogin) {
+        this.firstLogin = firstLogin;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public long getCoinValue() {
+        return coinValue;
+    }
+
+    public void setCoinValue(long coinValue) {
+        this.coinValue = coinValue;
     }
 }
 

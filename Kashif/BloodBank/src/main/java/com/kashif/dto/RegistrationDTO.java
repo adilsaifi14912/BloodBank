@@ -1,9 +1,9 @@
 package com.kashif.dto;
 
 
+import java.util.Date;
 
 public class RegistrationDTO {
-
 
     private String email;
     private String name;
@@ -12,7 +12,30 @@ public class RegistrationDTO {
     private String username;
     private String role;
     private String address;
-    private String bloodGroup;  //added extra on 11 Mar
+    private String bloodGroup;  //added extra on 11 Mar 2024
+    private Long commission;   //added extra fields on 14 Mar 2024
+    private Date creationTime;
+    private String createdBy;
+    private String modifyBy;
+    private Date updatedTime;
+    private boolean newUser;
+    private boolean blockedStatus;
+
+    public boolean isBlockedStatus() {
+        return blockedStatus;
+    }
+
+    public void setBlockedStatus(boolean blockedStatus) {
+        this.blockedStatus = blockedStatus;
+    }
+
+    public boolean isNewUser() {
+        return newUser;
+    }
+
+    public void setNewUser(boolean newUser) {
+        this.newUser = newUser;
+    }
 
     public String getBloodGroup() {
         return bloodGroup;
@@ -76,6 +99,46 @@ public class RegistrationDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Long getCommission() {
+        return commission;
+    }
+
+    public void setCommission(Long commission) {
+        this.commission = commission;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy;
+    }
+
+    public Date getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public void setUpdatedTime(Date updatedTime) {
+        this.updatedTime = updatedTime;
     }
 
     @Override

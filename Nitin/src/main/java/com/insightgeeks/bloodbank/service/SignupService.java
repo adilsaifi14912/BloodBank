@@ -5,6 +5,7 @@ import com.insightgeeks.bloodbank.entities.UserModel;
 import com.insightgeeks.bloodbank.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -21,29 +22,14 @@ public class SignupService {
     /**
      * Signs up a new user.
      */
-    public void signupUser(SignupDTO userDTO) {
+    public void signupUser(SignupDTO userDTO, SignupDTO model) {
 
         UserModel user = new UserModel();
 
         // check if user with same name exists
         Optional<UserModel> getUser = userRepository.findByUsername(userDTO.getUsername());
-        if(!getUser.isEmpty())
-        {
-            throw new RuntimeException("user by this name already exists");
-        }
-
-        // Check if parent user exists
-        Optional<UserModel> parent = userRepository.findById(userDTO.getParentId());
-        if (parent.isEmpty()) {
-            throw new RuntimeException("Parent does not exist");
-        }
-
-        // Check if user with the same phone number or username already exists
-        Iterable<UserModel> fetchUsers = userRepository.findAll();
-        for (UserModel fetchedUser : fetchUsers) {
-            if ((userDTO.getPhoneNumber() == fetchedUser.getPhoneNumber()) && userDTO.getUsername().equals(fetchedUser.getUsername())) {
-                throw new RuntimeException("User already exists");
-            }
+        if (!getUser.isEmpty()) {
+            throw new RuntimeException("User by this name already exists");
         }
 
         // Validate username
@@ -51,11 +37,17 @@ public class SignupService {
             throw new IllegalArgumentException("Username cannot be empty or contain only whitespace");
         }
 
-        // Validate password match
-        if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
-            throw new RuntimeException("Passwords do not match");
-        }
 
+        // Validate password match
+        if(model == null) {
+            if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
+                throw new RuntimeException("Passwords do not match");
+            }
+        }
+//        if(model == null)
+//        {
+//            System.out.println("yahi problem hai");
+//        }
         // Validate phone number length
         if (String.valueOf(userDTO.getPhoneNumber()).length() != 10) {
             throw new IllegalArgumentException("Phone number must be of 10 digits");
@@ -73,18 +65,41 @@ public class SignupService {
 
         // Set user properties
         user.setUsername(userDTO.getUsername());
-        user.setRole("user");
-        user.setPassword(userDTO.getPassword());
         user.setDateOfBirth(dateOfBirthConverted);
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setAdddress(userDTO.getAddress());
         user.setBloodGroup(userDTO.getBloodGroup());
         user.setCreatedOn(userCreationDate);
-        user.setCreatedBy("admin");
-        user.setParentId(userDTO.getParentId());
         user.setBlockStatus("unblocked");
+        user.setRole("user");
+        user.setCommision(0);
+        user.setPassword(userDTO.getPassword());
+        user.setCreatedBy("self");
+        user.setCoins(0);
+        user.setNextRequestEligibleDate(LocalDate.now());
 
-        // Save user
+
+        try {
+            if (model != null) {
+                switch (model.getRole()) {
+                    case "admin":
+                        user.setRole("agent");
+                        user.setCommision(userDTO.getCommision());
+                        user.setPassword(userDTO.getDateOfBirth());
+                        user.setCreatedBy("admin");
+                        break;
+
+                    case "agent":
+                        user.setRole("user");
+                        user.setCommision(0);
+                        user.setPassword(userDTO.getDateOfBirth());
+                        user.setCreatedBy(model.getUsername());
+                        break;
+                }
+
+            }
+        } catch (Exception e) {
+        }
         userRepository.save(user);
     }
 }

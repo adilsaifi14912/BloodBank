@@ -15,35 +15,17 @@ public class RegisterServiceImpl implements RegisterService
 	@Autowired
 	UserRepository userRepository;
 
-
-
 	@Override
-	public void registerService(RegisterDTO registerDTO)
+	public void registerService(RegisterDTO registerDTO, RegisterDTO usr)
 	{
 
 		UserModel user = new UserModel();
-//		Iterable<UserModel> users = userRepository.findAll();
-//		for(UserModel getUser:users)
-//		{
-//			if((registerDTO.getUserEmail().equals(getUser.getUserEmail())) &&
-//					(registerDTO.getPassword().equals(getUser.getPassword())))
-//			{
-//				throw new RuntimeException("user already exists");
-//			}
-//		}
-
 		// check if user with same name exists
 		Optional<UserModel> getUser = userRepository.findByUserEmail(registerDTO.getUserEmail());
 		if(!getUser.isEmpty())
 		{
 			throw new RuntimeException("user by this email already exists");
 		}
-
-		// Check if parent user exists
-//		Optional<UserModel> parent = userRepository.findById(registerDTO.getParentId());
-//		if (parent.isEmpty()) {
-//			throw new RuntimeException("Parent does not exist");
-//		}
 
 		// Check if user with the same phone number or username already exists
 		Iterable<UserModel> fetchUsers = userRepository.findAll();
@@ -75,7 +57,6 @@ public class RegisterServiceImpl implements RegisterService
 		user.setUsername(registerDTO.getUsername());
 		user.setUserEmail(registerDTO.getUserEmail());
 		user.setCity(registerDTO.getCity());
-		user.setRole("user");
 		user.setDateOfBirth(dateOfBirthConverted);
 		user.setGender(registerDTO.getGender());
 		user.setPhoneNumber(registerDTO.getPhoneNumber());
@@ -83,11 +64,62 @@ public class RegisterServiceImpl implements RegisterService
 		user.setPassword(registerDTO.getPassword());
         user.setBloodGroup(registerDTO.getBloodGroup());
         user.setCreatedOn(LocalDate.now());
-        user.setCreatedBy("admin");
         user.setBlockStatus("unblocked");
 
+		if(usr!=null ){
+			user.setRole("agent");
+			user.setCreatedBy("admin");
+			user.setPassword(registerDTO.getDateOfBirth());
+		}
+		else {user.setRole("user");
+			user.setCreatedBy("self");
+		}
 
 		userRepository.save(user);
+
+	}
+
+
+
+	public void signupAgentCreatedUser(RegisterDTO registerDTO, RegisterDTO user)
+	{
+
+		UserModel userModel = new UserModel();
+		Optional<UserModel> getUser = userRepository.findByUserEmail(registerDTO.getUserEmail());
+		if(!getUser.isEmpty())
+		{
+			throw new RuntimeException("user by this email already exists");
+		}
+
+		if (registerDTO.getUsername().trim().isEmpty()) {
+			throw new IllegalArgumentException("Username cannot be empty or contain only whitespace");
+		}
+
+		if (String.valueOf(registerDTO.getPhoneNumber()).length() != 10) {
+			throw new IllegalArgumentException("Phone number must be of 10 digits");
+		}
+		if (registerDTO.getCity().trim().isEmpty()) {
+			throw new IllegalArgumentException("Address cannot be empty or contain only whitespace");
+		}
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate dateOfBirthConverted = LocalDate.parse(registerDTO.getDateOfBirth(), formatter);
+
+		userModel.setUserEmail(registerDTO.getUserEmail());
+		userModel.setDateOfBirth(dateOfBirthConverted);
+		userModel.setPhoneNumber(registerDTO.getPhoneNumber());
+		userModel.setCity(registerDTO.getCity());
+		userModel.setBloodGroup(registerDTO.getBloodGroup());
+		userModel.setCreatedOn(LocalDate.now());
+		userModel.setBlockStatus("unblocked");
+		userModel.setRole("user");
+		userModel.setCommission(0f);
+		userModel.setPassword(registerDTO.getDateOfBirth());
+		userModel.setCreatedBy(user.getUsername());
+		userModel.setGender(registerDTO.getGender());
+		userModel.setUsername(registerDTO.getUsername());
+
+		userRepository.save(userModel);
 
 	}
 }
