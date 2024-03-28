@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>End User Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
         /* CSS styles */
         body {
@@ -36,7 +37,8 @@
 
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            margin-left:90px;
+            float:left;
             background-color: #fff;
             border-radius: 8px;
             padding: 20px;
@@ -86,6 +88,27 @@
         .btn:hover {
             background-color: #0056b3;
         }
+
+               .btn.btn-danger {
+                   background-color: #dc3545; /* Blood red color */
+                   color: #fff;
+                   padding: 15px 25px; /* Increased padding */
+                   border: none;
+                   border-radius: 8px;
+                   cursor: pointer;
+                   font-size: 18px; /* Increased font size */
+                   display: inline-block;
+                   margin-right: 10px; /* Added margin between buttons */
+                   margin-left:150px;
+               }
+               a{
+                color:white;
+               }
+
+               .logout{
+               margin-left:20px;
+               padding:5px
+               }
     </style>
 </head>
 <body>
@@ -125,7 +148,17 @@
           <label>Address:</label>
           <p>${user.getCreatedOn()}</p>
      </div>
+       <div class="profile-info">
+               <label>Coins:</label>
+               <p>${user.getCoins()}</p>
+       </div>
+
 </div>
+
+<button type="button" class="btn btn-danger ml-10"><a href="bloodRequirement">Donate/ReceiveBlood</a></button>
+<button type="button" class="btn btn-danger ml-10"><a href="myRequests">My Requests</a></button>
+<button type="button" class="btn btn-danger ml-10 logout"><a href="logout">Logout</a></button>
+
 
 </body>
 </html>

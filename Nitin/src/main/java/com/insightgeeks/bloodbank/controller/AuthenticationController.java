@@ -3,9 +3,7 @@ package com.insightgeeks.bloodbank.controller;
 import com.insightgeeks.bloodbank.dto.LoginDTO;
 import com.insightgeeks.bloodbank.dto.PasswordResetDTO;
 import com.insightgeeks.bloodbank.dto.SignupDTO;
-import com.insightgeeks.bloodbank.service.DatabaseSetupService;
-import com.insightgeeks.bloodbank.service.LoginService;
-import com.insightgeeks.bloodbank.service.SignupService;
+import com.insightgeeks.bloodbank.service.*;
 import com.insightgeeks.bloodbank.util.LoginResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,90 +13,134 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class AuthenticationController {
 
-    static int loginAttempts = 0; // Static variable to track login attempts
-
-    // Autowired services and DTOs
     @Autowired
     DatabaseSetupService databaseSetupService;
+
+    @Autowired
+    BloodStockService bloodStockService;
+
     @Autowired
     private SignupService signupService;
+
     @Autowired
     private LoginService loginService;
-    @Autowired
-    SignupDTO user;
 
-    // Home mapping to initialize database and redirect to signup page
+    @Autowired
+    AgentService agentService;
+
+    @Autowired
+    AdminService adminService;
+
+
     @RequestMapping("/")
     public String home() {
-        databaseSetupService.setupDatabase(); // Initialize the database
-        return "login"; // Redirect to the signup page
-    }
-
-    // Mapping to get signup view
-    @RequestMapping("/signup")
-    public String getSignupView() {
-        return "signup";
-    }
-
-    // Mapping to get login view
-    @RequestMapping("/login")
-    public String getLoginView() {
+        databaseSetupService.setupBloodStock();
+        databaseSetupService.setupDatabase();
         return "login";
     }
 
-    // Handling user signup
+
     @PostMapping("/userSignup")
-    public String performSignup(@ModelAttribute @Validated SignupDTO signupDTO, BindingResult bindingResult, Model model) {
+    public String performUserSignup(@ModelAttribute @Validated SignupDTO signupDTO,
+                                    BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest) {
+
+        HttpSession session = httpServletRequest.getSession();
+        SignupDTO usr = (SignupDTO) session.getAttribute("user");
+
         if (bindingResult.hasErrors()) {
-            // If validation errors exist, return to the signup page
+
             model.addAttribute("formatError", bindingResult.getFieldError().getDefaultMessage());
+            if (usr.getRole() != null && usr.getRole().equals("admin")) {
+                return "createAgent";
+            }
+
+            if (usr.getRole() != null && usr.getRole().equals("agent")) {
+                return "createUser";
+            }
+
             return "signup";
         }
         try {
-            // Attempt to sign up the user
-            signupService.signupUser(signupDTO);
-            return "login"; // If signup is successful, redirect to the login page
+
+            signupService.signupUser(signupDTO, usr);
+            if (usr != null) {
+                if (usr.getRole().equals("agent")) {
+                    return "agentProfilePage";
+                }
+                if (usr.getRole().equals("admin")) {
+                    model.addAttribute("signedupUsers", loginService.fetchSignedupUsers());
+                    model.addAttribute("user", usr);
+                    return "adminProfilePage";
+                }
+            }
+            return "login";
         } catch (Exception e) {
-            // If an exception occurs during signup, return to the signup page with error message
             model.addAttribute("formatError", e.getMessage());
+
+            if (usr != null && usr.getRole().equals("admin")) {
+                return "createAgent";
+            }
+
+            if (usr != null && usr.getRole().equals("agent")) {
+                return "createUser";
+            }
+
             return "signup";
         }
     }
 
-    // Handling user login
+
     @PostMapping("/userLogin")
-    public String performLogin(@ModelAttribute @Validated LoginDTO loginDTO, BindingResult bindingResult, Model model) {
+    public String performUserLogin(@ModelAttribute @Validated LoginDTO loginDTO,
+                                   BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("formatError", bindingResult.getFieldError().getDefaultMessage());
-            return "login"; // If validation errors exist, return to the login page
+            return "login";
         }
 
         try {
-            // Attempt user login
-            LoginResult loginResult = loginService.performUserLogin(loginDTO);
-            user = loginResult.getUser();
 
-            // Process login result
+            LoginResult loginResult = loginService.performUserLogin(loginDTO);
+            SignupDTO user = loginResult.getUser();
+            HttpSession session = httpServletRequest.getSession();
+
+
             switch (loginResult.getStatus()) {
                 case "success":
-                    // Handle successful login
+
                     if (user.getBlockStatus().equalsIgnoreCase("blocked")) {
                         model.addAttribute("blockStatus", "User Blocked");
                         return "login";
                     }
 
+                    session.setAttribute("user", user);
+                    session.setAttribute("bloodStockList",bloodStockService.getBloodStock());
+                    adminService.updateActiveUsers(user, "add");
+
                     switch (loginResult.getUser().getRole()) {
-                        // Redirect to appropriate profile page based on user role
+
                         case "admin":
                             model.addAttribute("user", loginResult.getUser());
                             model.addAttribute("signedupUsers", loginService.fetchSignedupUsers());
+                            session.setAttribute("totalCoins",adminService.calculateTotalCoins());
+                            session.setAttribute("totalCommission",adminService.getAllAgentCoins());
+                            session.setAttribute("totalUserCoins",adminService.getAllUsersPoints());
+
                             return "adminProfilePage";
 
                         case "agent":
+                            session.setAttribute("totalCoins",agentService.calculateTotalPointsForAgentCreatedUsers(user));
+                            session.setAttribute("totalCommission",agentService.calculateCommissionEarned(user));
+                            session.setAttribute("totalUserCoins",agentService.calculateUsersActualPoints(user));
+                            session.setAttribute("bloodRequestSummaryList",agentService.getBloodRequestSummaryForAgent(user));
                             model.addAttribute("user", loginResult.getUser());
                             return "agentProfilePage";
 
@@ -108,12 +150,12 @@ public class AuthenticationController {
                     }
 
                 case "reset":
-                    // Redirect to password reset page if password reset is required
-                    model.addAttribute("username", loginResult.getUser().getUsername());
+
+                    session.setAttribute("user",user);
                     return "passwordReset";
 
                 case "invalid":
-                    // Handle invalid credentials
+
                     model.addAttribute("status", "Invalid credentials");
                     if (loginResult.getBlockStatus() == 1) {
                         model.addAttribute("blockStatus", "User Blocked");
@@ -123,41 +165,53 @@ public class AuthenticationController {
                     return "login";
             }
         } catch (Exception e) {
-            // If an exception occurs, return to the login page with error message
+
             model.addAttribute("formatError", e.getMessage());
             return "login";
         }
         return "";
     }
 
-    // Handling password change request
+
     @PostMapping(value = "/changePassword")
     public String changePassword(@ModelAttribute @Validated PasswordResetDTO passwordResetDTO, Model model,
-                                 BindingResult bindingResult) {
+                                 BindingResult bindingResult, @RequestParam String actualName) {
 
         if (bindingResult.hasErrors()) {
-            // If validation errors exist, return to the password reset page
+
             model.addAttribute("formarError", "Please fill all fields properly");
             return "passwordReset";
         }
 
-        // Process password reset
-        switch (loginService.updatePassword(user, passwordResetDTO)) {
+
+        switch (loginService.updatePassword(actualName, passwordResetDTO)) {
             case "resetSuccess":
-                // Password reset successful
+
                 model.addAttribute("passwordResetStatus", "Password successfully changed");
                 return "login";
 
             case "unmatchedPassword":
-                // Unmatched passwords
+
                 model.addAttribute("passwordResetStatus", "Passwords do not match");
                 return "passwordReset";
 
             case "missingUser":
-                // User does not exist
+
                 model.addAttribute("passwordResetStatus", "User does not exist");
                 return "passwordReset";
         }
         return "";
+    }
+
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest httpServletRequest) {
+
+        HttpSession session = httpServletRequest.getSession();
+        SignupDTO usr = (SignupDTO) session.getAttribute("user");
+        adminService.updateActiveUsers(usr, "remove");
+        session.invalidate();
+
+        return "login";
     }
 }
