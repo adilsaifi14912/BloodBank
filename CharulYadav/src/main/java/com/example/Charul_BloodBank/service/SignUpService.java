@@ -22,6 +22,7 @@ public class SignUpService {
         user1.setRole("enduser");
         user1.setCreatedBy();
         user1.setBloodGroup(userDto.getBloodGroup());
+        user1.setFirstLogin(true);
         bloodBankRepository.save(user1);
     }
     public List<UserModel> getAllUsers() {

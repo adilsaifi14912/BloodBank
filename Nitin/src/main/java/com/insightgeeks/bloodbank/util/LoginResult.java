@@ -1,7 +1,6 @@
 package com.insightgeeks.bloodbank.util;
 
 import com.insightgeeks.bloodbank.dto.SignupDTO;
-import com.insightgeeks.bloodbank.entities.UserModel;
 import org.springframework.stereotype.Component;
 
 @Component

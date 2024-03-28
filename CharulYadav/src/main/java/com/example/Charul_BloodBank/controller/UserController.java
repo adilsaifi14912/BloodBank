@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -32,25 +33,43 @@ public class UserController {
 
     @PostMapping("/userLogin")
     public String userLogin(UserLoginDTO userLoginDto, Model model) {
-        if (userLoginService.authenticate(userLoginDto))
+        UserModel user = userLoginService.getUser(userLoginDto.getUsername());
+        if(user.isLocked()){
+            return "accountLocked";
+        }
+        if (user!=null)
         {
-            UserModel user = userLoginService.getUser(userLoginDto.getUsername());
-            String userRole = user.getRole();
-            model.addAttribute("user", user);
-            if ("admin".equals(userRole)) {
-                List<UserModel> userList = userSignupService.getAllUsers();
-                model.addAttribute("userList", userList);
-                return "adminDashboard";
-            } else if ("agent".equals(userRole)) {
-                return "agentDashboard";
-            } else if ("enduser".equals(userRole)) {
-                return "endUserDashboard";
-            } else {
-                return "login";
+            boolean auth = userLoginService.authenticate(userLoginDto);
+            if(auth) {
+                if (user.isFirstLogin()) {
+                    return "resetPass";
+                }
+                if (user.isLocked()) {
+                    return "accountLocked";
+                }
+                String userRole = user.getRole();
+                model.addAttribute("user", user);
+                if ("admin".equals(userRole)) {
+                    List<UserModel> userList = userSignupService.getAllUsers();
+                    model.addAttribute("userList", userList);
+                    return "adminDashboard";
+                } else if ("agent".equals(userRole)) {
+                    return "agentDashboard";
+                } else if ("enduser".equals(userRole)) {
+                    return "endUserDashboard";
+                } else {
+                    return "login";
+                }
             }
         }
-        else
             return "login";
+    }
+    @PostMapping("/updatePassword")
+    public String passwordUpdate(@RequestParam String username,
+                                 @RequestParam String newPassword)
+    {
+        userLoginService.updateUserPassword(newPassword, username);
+        return "login";
     }
     @ResponseBody
     @PostMapping("/register")
