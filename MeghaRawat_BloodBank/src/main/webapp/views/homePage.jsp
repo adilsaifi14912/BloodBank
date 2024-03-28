@@ -7,9 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: #f2f2f2;
             margin: 0;
             padding: 0;
             display: flex;
@@ -44,14 +42,26 @@
         .btn:hover {
             background-color: #45a049;
         }
+        .button-icon {
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        .blood-bank-image {
+            width: 300px; /* Adjust the size as needed */
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .signup-login-text {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to Blood Bank</h1>
-        <a href="signup" class="btn">Sign Up</a>
-        <br><br>
-        <a href="login" class="btn">Login</a>
+        <p class="signup-login-text">New User?<br> <a href="signup" class="btn">Sign Up</a></p>
+        <p class="signup-login-text"><br>Already have an account?<br> <a href="login" class="btn">Login</a></p>
     </div>
 </body>
 </html>

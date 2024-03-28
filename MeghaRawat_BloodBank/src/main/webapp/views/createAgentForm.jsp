@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up Form</title>
+    <title>Agent Creation Form</title>
     <style>
     h2{
     text-align: center;
@@ -13,7 +13,7 @@
             background-color: #f5f5f5;
         }
 
-        .signup-form {
+        .createAgent-form {
             max-width: 400px;
             margin: 20px auto;
             padding: 20px;
@@ -33,8 +33,8 @@
         }
 
         .form-group input[type="text"],
-        .form-group input[type="password"],
         .form-group input[type="date"],
+        .form-group input[type="text"],
         .form-group input[type="tel"],
         .form-group textarea {
             width: calc(100% - 22px);
@@ -75,19 +75,17 @@
     </style>
 </head>
 <body>
-    <form action="addUser" method="post" class="signup-form">
-        <h2>Sign Up</h2>
+    <form action="agentCreated" method="post" class="createAgent-form">
+        <h2>Create Agent</h2>
+        <c:if test="${not empty successMessage}">
+                        <div class="success">${successMessage}</div>
+                    </c:if>
         <c:if test="${not empty usernameError}">
             <div class="error">${usernameError}</div>
         </c:if>
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
         </div>
 
         <div class="form-group">
@@ -111,10 +109,12 @@
         </div>
 
         <div class="form-group">
-                    <label for="address">Address:</label>
-                    <textarea id="address" name="address" rows="4" cols="50" required></textarea>
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="4" cols="50" required></textarea>
         </div>
-        <button type="submit" class="btn">Sign Up</button>
+
+        <button type="submit" class="btn">Create Agent</button>
     </form>
+
 </body>
 </html>

@@ -4,6 +4,7 @@ import com.BloodBank.Model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -25,6 +26,11 @@ public interface UserRepository extends JpaRepository<UserModel,Long>{
     @Modifying
     @Query("UPDATE UserModel u SET u.blockedStatus = ?1 WHERE u.username = ?2")
     void updateUserBlockedStatusByUsername(boolean blockedStatus, String Username);
+
+//    @Transactional
+//    @Modifying
+//    @Query("UPDATE UserModel b SET b.coins = ?2 WHERE b.id = ?1")
+//    void updateCoins( Long requestId, int coins);
 
     UserModel findByUsername(String username);
 }
