@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOC TYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>End User Dashboard</title>
+    <title>Dashboard</title>
     <!-- Include your CSS files here -->
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -62,44 +63,38 @@
             padding: 10px;
             text-align: center;
         }
-        .button-container {
-            text-align: center;
-        }
         button {
-            padding: 10px 20px; /* Adjust padding to increase button size */
-            font-size: 16px; /* Increase font size for better visibility */
-            margin: 5px; /* Add some margin between buttons */
+             padding: 10px 20px; /* Adjust padding to increase button size */
+             font-size: 16px; /* Increase font size for better visibility */
         }
     </style>
-</head>
-<body>
-    <header>
-        <h1>End User Dashboard</h1>
-    </header>
-                <p><strong>UserName:</strong>${userModel.username}</p>
-                <p><strong>CreatedOn:</strong> ${userModel.createdOn}</p>
-                <p><strong>Date of Birth:</strong> ${userModel.dob}</p>
-                <p><strong>Contact Number:</strong> ${userModel.contactNumber}</p>
-                <p><strong>Address:</strong> ${userModel.address}</p>
-                <p><strong>Blood Group:</strong> ${userModel.bloodGroup}</p><br>
-                <p><strong>Total Coins:</strong> ${userModel.coin}</p><br>
-    <div class="button-container">
-        <h2>End User logged in!</h2>
-        <!-- User information -->
-
-        <form action="makerequest" method="get">
-            <button type="submit">Request Service</button>
-        </form>
-        <form action="seemyrequests" method="get">
-            <button type="submit">See Requests</button>
-        </form>
-        <form action="coinreport" method="get">
-            <button type="submit">Coin Report</button>
-        </form>
-        <form action="logout" method="get">
+    <body>
+        <header>
+            <h1>Admin Dashboard</h1>
+        </header>
+            <h2>User Request Report</h2>
+            <table border="1">
+              <thead>
+                    <tr>
+                        <th>Blood Group</th>
+                        <th>Accepted</th>
+                        <th>Rejected</th>
+                        <th>Coin</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                                    <c:forEach var="user" items="${userRequestReport}">
+                                        <tr>
+                                            <td>${user.BloodGroup}</td>
+                                            <td>${user.Accepted}</td>
+                                            <td>${user.Rejected}</td>
+                                            <td>${user.CoinValue}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                <form id="logoutForm" action="logout" method="get">
                     <button type="submit">Logout</button>
                 </form>
-    </div>
-</body>
+    </body>
 </html>
-

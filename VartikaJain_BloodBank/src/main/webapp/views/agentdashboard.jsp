@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,67 +21,59 @@
             padding: 20px;
             text-align: center;
         }
-        nav {
-            background-color: #444;
-            color: #fff;
-            padding: 10px;
-        }
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        nav ul li {
-            display: inline;
-            margin-right: 20px;
-        }
-        nav ul li a {
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-        }
-        main {
-            margin: 20px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
         h1 {
             margin-top: 0;
         }
-        section {
-            margin-bottom: 20px;
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
         }
-        section p {
-            margin: 5px 0;
+        .container form {
+            margin-bottom: 10px;
         }
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
+        button {
+            padding: 15px 30px; /* Adjust padding to increase button size */
+            font-size: 18px; /* Increase font size for better visibility */
         }
-        #logoutForm button {
-                        padding: 10px 20px; /* Adjust padding to increase button size */
-                        font-size: 16px; /* Increase font size for better visibility */
-                    }
     </style>
-    <body>
-        <header>
-            <h1>Admin User Dashboard</h1>
-        </header>
-                <h2>Agent logged in!</h2>
-                <p><strong>UserName:</strong>${userModel.username}</p>
-                <p><strong>CreatedOn:</strong> ${userModel.createdOn}</p>
-                <p><strong>Date of Birth:</strong> ${userModel.dob}</p>
-                <p><strong>Contact Number:</strong> ${userModel.contactNumber}</p>
-                <p><strong>Address:</strong> ${userModel.address}</p>
-                <p><strong>Blood Group:</strong> ${userModel.bloodGroup}</p>
-                <br>
-                           <form id="logoutForm" action="logout" method="post">
-                               <button type="submit">Logout</button>
-                           </form>
-    </body>
+</head>
+<body>
+    <header>
+        <h1>Agent Dashboard</h1>
+    </header>
+    <h2>Agent logged in!</h2>
+    <p><strong>UserName:</strong>${userModel.username}</p>
+    <p><strong>CreatedOn:</strong> ${userModel.createdOn}</p>
+    <p><strong>Date of Birth:</strong> ${userModel.dob}</p>
+    <p><strong>Contact Number:</strong> ${userModel.contactNumber}</p>
+    <p><strong>Address:</strong> ${userModel.address}</p>
+    <p><strong>Blood Group:</strong> ${userModel.bloodGroup}</p>
+    <p><strong>Total Coins:</strong> ${userModel.coin}</p><br>
+    <div class="container">
+        <form action="agentuser" method="get">
+            <button type="submit">User Model Table</button>
+        </form>
+
+        <form action="addenduser" method="get">
+            <button type="submit">Add User</button>
+        </form>
+        <form action="seemyrequests" method="get">
+           <button type="submit">See Requests</button>
+        </form>
+        <form action="seebloodreport" method="get">
+            <input type="hidden" name="username" value="${userModel.username}">
+            <button type="submit">Request Reports</button>
+        </form>
+        <form action="coinreport" method="get">
+            <input type="hidden" name="username" value="${userModel.username}">
+            <input type="hidden" name="role" value="${userModel.role}">
+           <button type="submit">Coin Report</button>
+        </form>
+        <form action="logout" method="get">
+                    <button type="submit">Logout</button>
+                </form>
+    </div>
+</body>
 </html>
