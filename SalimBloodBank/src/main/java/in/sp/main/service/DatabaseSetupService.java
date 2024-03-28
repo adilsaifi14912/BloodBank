@@ -34,10 +34,10 @@ public class DatabaseSetupService {
         user.setBlockStatus("unblocked");
         user.setUserEmail("admin990@gmail.com");
         user.setGender("male");
+        user.setCommission(0f);
 
         // Check if an admin user already exists in the database
         Optional<UserModel> usr= userRepository.findByRole("admin");
-
         // If no admin user exists, save the admin user to the database
         if(usr.isEmpty())
         {
