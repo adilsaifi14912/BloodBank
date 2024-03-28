@@ -5,7 +5,10 @@
             <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="/dashboard/enduser-account-creation" class="active">Create User</a></li>
             <li><a href="/dashboard/enduser-lists">EndUsers List</a></li>
-
+            <li><a href="/dashboard/status" >Status</a></li>
+            <li><a href="/dashboard/blood-report">Blood Report</a></li>
+            <li><a href="/dashboard/coins-value">Coins Value</a></li>
+            <li><a href="/dashboard/coins-report" >Coins Report</a></li>
         </ul>
     </aside>
     <div class="main-content">
