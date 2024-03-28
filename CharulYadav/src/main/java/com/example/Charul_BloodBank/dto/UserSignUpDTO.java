@@ -40,10 +40,6 @@ public class UserSignUpDTO {
     }
 
     public String getPassword() {
-        if(password.isEmpty())
-        {
-            password=String.valueOf(dob);
-        }
         return password;
     }
     public Date getDob(){return dob;}

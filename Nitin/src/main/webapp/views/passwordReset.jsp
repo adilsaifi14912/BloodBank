@@ -91,6 +91,7 @@
     <h2>Reset Your Password</h2>
     <form action="changePassword" method="post">
 
+        <input type="hidden" name="actualName" value="${user.getUsername()}">
         <div class="form-group">
            <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -105,6 +106,7 @@
             <label for="confirmPassword">Confirm New Password:</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required>
         </div>
+
 
         <div class="form-group">
             <button type="submit" class="btn">Change Password</button>

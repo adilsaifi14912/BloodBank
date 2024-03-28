@@ -1,4 +1,5 @@
  <%@ page isELIgnored="false" %>
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,12 +67,26 @@
         .back-button a:hover {
             background-color: #45a049;
         }
+        .add-agent-button {
+                    text-decoration: none;
+                    font-weight: bold;
+                    color: #fff;
+                    padding: 10px 20px;
+                    background-color: #007bff;
+                    border: none;
+                    border-radius: 5px;
+                    transition: background-color 0.3s;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>${dto.role} Logged In</h2>
-
+        <h2>Welcome to ${dto.username} Dashboard!!</h2>
+        <div class="back-button">
+            <a href="/userRequest">Donate/Receive Blood</a>
+            <a href="/userBloodRequest" class="add-agent-button">User Request</a>
+        </div>
+        <br>
         <div class="user-details">
             <div>
                 <label>Name:</label>
@@ -97,10 +112,14 @@
                 <label>Blood Group:</label>
                 <div>${dto.bloodGroup}</div>
             </div>
+            <div>
+                <label>Total Coins:</label>
+                <div>${dto.coins}</div>
+            </div>
         </div>
 
         <div class="back-button">
-            <a href="/">Log Out</a>
+            <a href="logout">Log Out</a>
         </div>
     </div>
 </body>

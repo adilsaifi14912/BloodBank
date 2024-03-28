@@ -4,5 +4,5 @@ import in.sp.main.dto.RegisterDTO;
 
 public interface RegisterService
 {
-	public void registerService(RegisterDTO registerDTO);
+	public void registerService(RegisterDTO registerDTO, RegisterDTO user);
 }

@@ -1,11 +1,15 @@
 package in.sp.main.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+import in.sp.main.dao.BloodBankRepository;
+import in.sp.main.dto.BloodBankDTO;
 import in.sp.main.dto.PasswordResetDTO;
 import in.sp.main.dto.RegisterDTO;
+import in.sp.main.entities.BloodBankModel;
 import in.sp.main.entities.UserModel;
 import in.sp.main.dao.UserRepository;
 import in.sp.main.dto.LoginDTO;
@@ -13,6 +17,8 @@ import in.sp.main.util.LoginResult;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.validation.OverridesAttribute;
 
 
 @Service
@@ -25,33 +31,21 @@ public class LoginServiceImpl implements LoginService
 	@Autowired
 	ModelMapper modelMapper;
 
+	@Autowired
+	BloodBankRepository bloodBankRepository;
+
 	public static int loginAttempts = 0;
 	public static int blockResult;
-
-//
-//	@Override
-//	public boolean loginService(LoginDTO loginDTO)
-//	{
-//
-//		Iterable<UserModel> users = userRepository.findAll();
-//		for(UserModel user:users)
-//		{
-//			if(user.getUserEmail().equals(loginDTO.getUserEmail()) &&
-//					user.getPassword().equals(loginDTO.getPassword()))
-//			{
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 
 	public LoginResult loginService(LoginDTO userLoginDTO) {
 		Iterable<UserModel> users = userRepository.findAll();
 
 		for (UserModel user : users) {
+
 			if ((userLoginDTO.getUserEmail().equals(user.getUserEmail())) &&
 					userLoginDTO.getPassword().equals(user.getPassword())) {
-				if (user.getPassword().equals("default")) {
+
+				if (user.getPassword().equals(String.valueOf(user.getDateOfBirth()))) {
 					loginResult.setUser(convertToRegisterDTO(user));
 					loginResult.setStatus("reset");
 					return loginResult;
@@ -81,6 +75,7 @@ public class LoginServiceImpl implements LoginService
 		loginResult.setStatus("invalid");
 		return loginResult;
 	}
+
 
 	public RegisterDTO convertToRegisterDTO(UserModel userModel)
 	{
@@ -115,16 +110,45 @@ public class LoginServiceImpl implements LoginService
 		}
 	}
 
-	public List<RegisterDTO> fetchSignedupUsers() {
-		List<RegisterDTO> signedupUsers = new ArrayList<>();
-		Iterable<UserModel> users = userRepository.findAll();
-		for (UserModel user : users) {
-			if (user.getRole().equalsIgnoreCase("user")) {
-				signedupUsers.add(convertToRegisterDTO(user));
+
+	public List<RegisterDTO> fetchAgentData()
+	{
+		List<RegisterDTO> signedUpAgent=new ArrayList<>();
+		Iterable<UserModel> agents=userRepository.findAll();
+		for(UserModel agent:agents)
+		{
+			if(agent.getRole().equalsIgnoreCase("agent"))
+			{
+				signedUpAgent.add(convertToRegisterDTO(agent));
 			}
 		}
-		return signedupUsers;
+		return signedUpAgent;
+	}
+
+
+	public List<RegisterDTO> getAgentUsers(String username) {
+		List<RegisterDTO>agentCreatedUsers=new ArrayList<>();
+		List<UserModel> agentUsers = userRepository.findAllByCreatedBy(username);
+//		System.out.println(agentUsers);
+		for(UserModel user:agentUsers)
+		{
+
+			agentCreatedUsers.add(convertToRegisterDTO(user));
+		}
+		return agentCreatedUsers;
+	}
+
+
+
+	public RegisterDTO convertToSignupDTO(UserModel userModel) {
+		return modelMapper.map(userModel, RegisterDTO.class);
+	}
+
+	private BloodBankDTO convertToBloodBankDTO(BloodBankModel bloodRequest) {
+		return modelMapper.map(bloodRequest, BloodBankDTO.class);
 	}
 
 }
+
+
 
