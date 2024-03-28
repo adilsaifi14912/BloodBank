@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <style>
-        /* CSS styles */
         .header {
             background-color: #dc3545; /* Blood red color */
             color: #fff;
@@ -100,7 +100,9 @@
 <div class="header">
     <h1 class="logo">Blood Bank</h1>
     <p class="slogan">Saving Lives, One Donation at a Time</p>
-    <p>${formatError}</p>
+     <p>${formatError}</p>
+    <p>${blockStatus}</p>
+    <p>${passwordResetStatus}</p>
     <p>${status}</p>
 </div>
 <div class="container">

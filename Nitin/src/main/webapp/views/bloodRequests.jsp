@@ -1,0 +1,238 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="com.insightgeeks.bloodbank.dto.BloodRequestDTO" %>
+<%@ page import="java.time.Period" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<html>
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            resize: vertical; /* Allow vertical resizing */
+            box-sizing: border-box; /* Include padding and border in textarea's total width */
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        input[type="submit"]:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+<h1>Blood Requests</h1>
+
+<form action="bloodRequestsDateFilter" method="get">
+    From : <input type="date" name="from">
+    To : <input type="date" name="to">
+    <input type="submit" value="search">
+</form>
+
+<form action="bloodRequestsStatusFilter" method="get">
+    <select name="status">
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+        <option value="pending">Pending</option>
+    </select>
+    <input type="submit" value="Apply status filter">
+</form>
+<div>
+    <button><a href="myRequests">All Requests</a></button>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Created On</th>
+        <th>Blood Group</th>
+        <th>Date of Birth</th>
+        <th>Status</th>
+        <th>Agent</th>
+        <th>Age</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%
+        List<BloodRequestDTO> bloodRequests = (List<BloodRequestDTO>) request.getAttribute("bloodRequests");
+        for (BloodRequestDTO bloodRequest : bloodRequests) { %>
+        <tr>
+            <td><%= bloodRequest.getId() %></td>
+            <td><%= bloodRequest.getUserInfo().getUsername() %></td>
+            <td><%= bloodRequest.getType() %></td>
+            <td><%= bloodRequest.getQuantity() %></td>
+            <td><%= bloodRequest.getCreatedOn() %></td>
+            <td><%= bloodRequest.getBloodGroup() %></td>
+            <td><%= bloodRequest.getUserInfo().getDateOfBirth() %></td>
+
+            <td><%= bloodRequest.getStatus() %></td>
+            <td><%
+                if(bloodRequest.getUserInfo().getCreatedBy().equals("self"))
+                {out.print("-");}
+                else{out.print(bloodRequest.getUserInfo().getCreatedBy());}
+                %></td>
+            <td><%
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate dateOfBirthConverted = LocalDate.parse(bloodRequest.getUserInfo().getDateOfBirth(), formatter);
+                Period period = Period.between(dateOfBirthConverted,LocalDate.now());
+                out.print(period.getYears());
+                %></td>
+
+                <td>
+                <% if ("pending".equals(bloodRequest.getStatus())) { %>
+                    <span>
+                        <button onclick="acceptBloodRequest(<%= bloodRequest.getId() %>)">
+                            <a href="#">Accept</a>
+                        </button>
+                    </span>
+                    <span>
+                        <button onclick="rejectBloodRequest(<%= bloodRequest.getId() %>)">Reject</button>
+                    </span>
+                <% } else if ("rejected".equals(bloodRequest.getStatus())) { %>
+                    <span>Rejected</span>
+                <% } else if ("approved".equals(bloodRequest.getStatus())) { %>
+                    <span>Accepted</span>
+                <% } else { %>
+                    <span><%= bloodRequest.getStatus() %></span>
+                <% } %>
+
+                </td>
+
+        </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Reject Blood Request</h2>
+        <form id="rejectForm" action="/reject" method="post">
+            <label for="remark">Rejection Remark:</label><br>
+            <textarea id="remark" name="remark" rows="4" cols="50"></textarea><br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+<button type="button" class="btn btn-primary mt-5">
+    <a href="/admin" class="btn blue pad">Back</a>
+</button>
+
+
+</body>
+<script>
+    function displayModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
+
+    var closeBtn = document.getElementsByClassName("close")[0];
+    closeBtn.onclick = function() {
+        closeModal();
+    };
+
+    function rejectBloodRequest(id) {
+
+        document.getElementById("rejectForm").action = "/reject?id=" + id;
+        displayModal();
+    }
+
+    function acceptBloodRequest(id) {
+            window.location.href = "/accept?id=" + id;
+        }
+
+
+</script>
+</html>

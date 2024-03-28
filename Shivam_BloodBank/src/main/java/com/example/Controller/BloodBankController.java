@@ -5,7 +5,6 @@ import com.example.Dto.UserLoginDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.example.Service.*;
@@ -26,14 +25,50 @@ public class BloodBankController {
     public String signup() {
         return "signup";
     }
+    @PostMapping("/updatePassword")
+    public String updatePassword(@ModelAttribute UserLoginDto userLoginDto) {
+        //to update password on first login
+        userLoginService.updatePassword(userLoginDto);
+        return "updatedMessage";
+    }
 
-    @ResponseBody
     @PostMapping("/userLogin")
-    public String userLogin(@ModelAttribute @Validated UserLoginDto userLoginDto) {
-        if (userLoginService.check(userLoginDto))
-            return "<h2>Login Succesfully!!<h2>";
-        else
-            return "<h2>Invalid Credentials<h2>";
+    public String userLogin(@ModelAttribute @Validated UserLoginDto userLoginDto, Model model) {
+        UserSignupDto user = userLoginService.check(userLoginDto);
+        if (user != null) {
+            System.out.println(user.isFirstLogin());
+            //if user login first time then show update password page
+            if(user.isFirstLogin()){
+                return "updatePassword";
+            }
+            //if user exceed maximum limit of wrong attempt then locked page shown
+            if(user.isLockStatus()){
+                return "lock";
+            }
+            else {
+                //check for user role to display their respective dashboard
+                switch (user.getRole().toLowerCase()) {
+                    case "enduser":
+                        System.out.println("else");
+                        model.addAttribute("dto", user);
+                        return "user";
+                    case "agent":
+                        model.addAttribute("dto", user);
+                        return "user";
+                    case "admin":
+                        model.addAttribute("dto", user);
+                        model.addAttribute("list", userLoginService.signupUsers());
+                        return "admin";
+                    default:
+                        return "errorInLogin";
+                }
+            }
+
+        }
+        else {
+            System.out.println("else");
+            return "errorInLogin";
+        }
 
     }
 

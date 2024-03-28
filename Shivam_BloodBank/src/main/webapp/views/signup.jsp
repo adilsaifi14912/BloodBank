@@ -39,13 +39,16 @@
         input[type="password"],
         input[type="date"],
         input[type="email"],
-        input[type="submit"] {
+        input[type="submit"] ,select{
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+        }
+        select{
+            background-color:white;
         }
 
         input[type="submit"] {
@@ -76,8 +79,20 @@
            <label for="dob">DOB:</label>
             <input type="date" id="dob" name="dob" max ="2024-03-01" required>
 
+            <label for="bloodGroup">Blood Group:</label>
+                            <select id="bloodGroup" name="bloodGroup">
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" >
 
             <input type="submit" value="Sign Up">
             <div th:if="${message}">

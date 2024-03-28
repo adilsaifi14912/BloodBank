@@ -27,15 +27,19 @@ public class SignupService {
             return false;
         }
         UserModel user1 = new UserModel();
+        //setting values to the parameters of userDto class
         user1.setName(userDto.getName());
         user1.setUsername(userDto.getUsername());
+        user1.setBloodGroup(userDto.getBloodGroup());
         user1.setPassword(userDto.getPassword());
         user1.setDob(userDto.getDob());
         user1.setCreatedOn();
-        user1.setRole("enduser");
+        user1.setRole("Enduser");
+        user1.setCreatedBy("admin");
         UserModel save = bloodBankRepository.save(user1);
         return true;
     }
 
 }
+
 
