@@ -78,11 +78,13 @@
         <label for="dob">DOB:</label>
         <input type="date" id="dob" name="dob" required>
 
-        <label for="dob">Blood Group:</label>
+        <label for="bloodGroup">Blood Group:</label>
         <input type="bloodGroup" id="bloodGroup" name="bloodGroup" required>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
+
+        <input type="hidden" id="role" name="role" value="enduser">
 
         <input type="submit" value="Sign Up">
         <div th:if="${message}">

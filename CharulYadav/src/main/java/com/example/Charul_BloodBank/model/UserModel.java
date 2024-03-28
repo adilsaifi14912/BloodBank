@@ -38,6 +38,8 @@ public class UserModel {
     private boolean firstLogin;
     @Column
     private boolean locked;
+    @Column(name = "coin_value", columnDefinition = "bigint default 0")
+    private long coinValue;
     public void setCreatedOn(){this.createdOn=LocalDateTime.now();}
     public LocalDateTime getCreatedOn(){return createdOn;}
 
@@ -81,8 +83,9 @@ public class UserModel {
     public String getCreatedBy() {
         return createdBy;
     }
-    public void setCreatedBy() {
-        this.createdBy = "AUTO";
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public boolean isFirstLogin() {
@@ -99,6 +102,14 @@ public class UserModel {
 
     public void setLocked(boolean locked) {
         this.locked = locked;
+    }
+
+    public long getCoinValue() {
+        return coinValue;
+    }
+
+    public void setCoinValue(long coinValue) {
+        this.coinValue = coinValue;
     }
 }
 
